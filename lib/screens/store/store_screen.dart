@@ -3,6 +3,9 @@ import '../../models/Store.dart';
 import '../../models/Food.dart';
 import 'components/body.dart';
 import 'components/custom_app_bar.dart';
+// import 'package:shop_app/screens/store/store_screen.dart';
+// import 'package:shop_app/models/Store.dart';
+// import 'package:shop_app/models/Food.dart';
 
 class StoreScreen extends StatelessWidget {
   static String routeName = "/store";
