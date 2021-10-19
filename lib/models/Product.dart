@@ -5,7 +5,7 @@ class Product {
   final String title, description;
   final List<String> images;
   final List<Color> colors;
-  final double rating, price;
+  final double rating, price, distance;
   final bool isFavourite, isPopular;
 
   Product({
@@ -18,6 +18,7 @@ class Product {
     required this.title,
     required this.price,
     required this.description,
+    required this.distance,
   });
 }
 
@@ -27,10 +28,7 @@ List<Product> demoProducts = [
   Product(
     id: 1,
     images: [
-      "assets/images/ps4_console_white_1.png",
-      "assets/images/ps4_console_white_2.png",
-      "assets/images/ps4_console_white_3.png",
-      "assets/images/ps4_console_white_4.png",
+      "assets/images/4w5thy.jpg",
     ],
     colors: [
       Color(0xFFF6625E),
@@ -38,17 +36,18 @@ List<Product> demoProducts = [
       Color(0xFFDECB9C),
       Colors.white,
     ],
-    title: "Wireless Controller for PS4™",
+    title: "Bread",
     price: 64.99,
     description: description,
     rating: 4.8,
     isFavourite: true,
     isPopular: true,
+    distance: 4.5
   ),
   Product(
     id: 2,
     images: [
-      "assets/images/Image Popular Product 2.png",
+      "assets/images/hoc-nau-pho-gia-truyen.jpg",
     ],
     colors: [
       Color(0xFFF6625E),
@@ -56,16 +55,17 @@ List<Product> demoProducts = [
       Color(0xFFDECB9C),
       Colors.white,
     ],
-    title: "Nike Sport White - Man Pant",
+    title: "Pho Ha Noi",
     price: 50.5,
     description: description,
     rating: 4.1,
     isPopular: true,
+    distance: 7.9
   ),
   Product(
     id: 3,
     images: [
-      "assets/images/glap.png",
+      "assets/images/Fried_Chicken-1024x536.png",
     ],
     colors: [
       Color(0xFFF6625E),
@@ -73,17 +73,18 @@ List<Product> demoProducts = [
       Color(0xFFDECB9C),
       Colors.white,
     ],
-    title: "Gloves XC Omega - Polygon",
+    title: "Fried Chicken",
     price: 36.55,
     description: description,
     rating: 4.1,
     isFavourite: true,
     isPopular: true,
+    distance: 8.5
   ),
   Product(
     id: 4,
     images: [
-      "assets/images/wireless headset.png",
+      "assets/images/bibimbap-a-popular-Korean-dish.jpg",
     ],
     colors: [
       Color(0xFFF6625E),
@@ -91,13 +92,15 @@ List<Product> demoProducts = [
       Color(0xFFDECB9C),
       Colors.white,
     ],
-    title: "Logitech Head",
+    title: "Korean Food",
     price: 20.20,
     description: description,
     rating: 4.1,
     isFavourite: true,
+    isPopular:false,
+    distance: 1.9
   ),
 ];
 
 const String description =
-    "Wireless Controller for PS4™ gives you what you want in your gaming from over precision control your games to sharing …";
+    "Food Description";
