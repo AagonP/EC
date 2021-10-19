@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shop_app/constants.dart';
 
 import '../../../size_config.dart';
 
@@ -8,10 +9,9 @@ class Categories extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> categories = [
       {"icon": "assets/icons/Flash Icon.svg", "text": "Flash Deal"},
-      {"icon": "assets/icons/Bill Icon.svg", "text": "Bill"},
-      {"icon": "assets/icons/Game Icon.svg", "text": "Game"},
-      {"icon": "assets/icons/Gift Icon.svg", "text": "Daily Gift"},
-      {"icon": "assets/icons/Discover.svg", "text": "More"},
+      {"icon": "assets/icons/storefront_black_24dp.svg", "text": "Store"},
+      {"icon": "assets/icons/Gift Icon.svg", "text": "Gift"},
+      {"icon": "assets/icons/category_black_24dp.svg", "text": "Category"},
     ];
     return Padding(
       padding: EdgeInsets.all(getProportionateScreenWidth(20)),
@@ -58,7 +58,7 @@ class CategoryCard extends StatelessWidget {
                 color: Color(0xFFFFECDF),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: SvgPicture.asset(icon!),
+              child: SvgPicture.asset(icon!, color: kPrimaryColor,),
             ),
             SizedBox(height: 5),
             Text(text!, textAlign: TextAlign.center)
