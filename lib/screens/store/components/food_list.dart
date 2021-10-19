@@ -22,20 +22,17 @@ class FoodList extends StatelessWidget {
           child: Text(
             "Menu",
             style: Theme.of(context).textTheme.headline6?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+                  fontWeight: FontWeight.bold,
+                ),
           ),
-        ),
-        Divider(
-          thickness: 0.6,
         ),
         ...List.generate(
           foods.length,
-              (index) => FoodTile(
+          (index) => FoodTile(
+            food: foods[index],
           ),
         ),
       ],
     );
   }
 }
-
