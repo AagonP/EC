@@ -1,57 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/screens/category/category_screen.dart';
+import 'package:shop_app/size_config.dart';
 
-import '../../../size_config.dart';
-import 'section_title.dart';
-
-class SpecialOffers extends StatelessWidget {
-  const SpecialOffers({
-    Key? key,
-  }) : super(key: key);
-
+class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-          child: SectionTitle(
-            title: "Categories",
-            press: () {
-              print("Categories pressed");
-              Navigator.pushNamed(context, CategoryScreen.routeName);
-            },
-          ),
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SpecialOfferCard(
+              image: "assets/images/Fried_Chicken-1024x536.png",
+              category: "Fried Chicken",
+              numOfBrands: 50,
+              press: () {},
+            ),
+            SpecialOfferCard(
+              image: "assets/images/tra-sua-truyen-thong.jpg",
+              category: "Drink",
+              numOfBrands: 50,
+              press: () {},
+            ),
+            SpecialOfferCard(
+              image: "assets/images/bibimbap-a-popular-Korean-dish.jpg",
+              category: "Korean Food",
+              numOfBrands: 50,
+              press: () {},
+            ),
+          ],
         ),
-        SizedBox(height: getProportionateScreenWidth(20)),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              SpecialOfferCard(
-                image: "assets/images/Fried_Chicken-1024x536.png",
-                category: "Fried Chicken",
-                numOfBrands: 50,
-                press: () {},
-              ),
-              SpecialOfferCard(
-                image: "assets/images/tra-sua-truyen-thong.jpg",
-                category: "Drink",
-                numOfBrands: 50,
-                press: () {},
-              ),
-              SpecialOfferCard(
-                image: "assets/images/bibimbap-a-popular-Korean-dish.jpg",
-                category: "Korean Food",
-                numOfBrands: 50,
-                press: () {},
-              ),
-              SizedBox(width: getProportionateScreenWidth(20)),
-            ],
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
@@ -76,14 +53,15 @@ class SpecialOfferCard extends StatelessWidget {
       child: GestureDetector(
         onTap: press,
         child: Container(
-          width: getProportionateScreenWidth(242),
-          height: getProportionateScreenWidth(100),
+          margin: EdgeInsets.symmetric(vertical: 20),
+          width: getProportionateScreenWidth(330),
+          height: getProportionateScreenWidth(150),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Stack(
               children: [
                 AspectRatio(
-                  aspectRatio: 2.42,
+                  aspectRatio: 330/150,
                   child: Image.asset(
                     image,
                     fit: BoxFit.cover,
@@ -95,7 +73,7 @@ class SpecialOfferCard extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Color(0xFF343434).withOpacity(0.4),
+                        Color(0xFF343434).withOpacity(0.5),
                         Color(0xFF343434).withOpacity(0.15),
                       ],
                     ),
@@ -113,11 +91,10 @@ class SpecialOfferCard extends StatelessWidget {
                         TextSpan(
                           text: "$category\n",
                           style: TextStyle(
-                            fontSize: getProportionateScreenWidth(18),
+                            fontSize: getProportionateScreenWidth(24),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        TextSpan(text: "$numOfBrands Brands")
                       ],
                     ),
                   ),
