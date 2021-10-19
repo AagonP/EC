@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/screens/food_details/food_details_screen.dart';
 import 'package:shop_app/models/Food.dart';
 import 'package:shop_app/size_config.dart';
 
