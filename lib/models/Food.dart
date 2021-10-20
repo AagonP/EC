@@ -1,48 +1,65 @@
 class Food {
   final int id;
-  final String name, image, description;
+  final String title;
+  final List<String> images;
   final double price;
+  final bool isFavourite;
 
   Food({
     required this.id,
-    required this.name,
-    required this.image,
-    required this.description,
+    required this.images,
+    this.isFavourite = false,
+    required this.title,
     required this.price,
   });
+
 }
-
-// Our demo Products
-
 List<Food> demoFoods = [
   Food(
-    id: 1,
-    name: "Chicken deep fried with fish sauce",
-    image: "assets/images/tshirt.png",
-    description: description,
-    price: 44.0,
+      id: 1,
+      images: [
+        "assets/images/4w5thy.jpg",
+      ],
+      title: "Bread",
+      price: 64.99,
+      isFavourite: true,
   ),
   Food(
-    id: 2,
-    name: "Fried chicken",
-    image: "assets/images/ps4_console_blue_3.png",
-    description: description,
-    price: 44.0,
+      id: 2,
+      images: [
+        "assets/images/hoc-nau-pho-gia-truyen.jpg",
+      ],
+      title: "Pho",
+      price: 50.5,
+    isFavourite: false,
   ),
   Food(
-    id: 3,
-    name: "Big-sized chips",
-    image: "assets/images/shoes2.png",
-    description: description,
-    price: 44.0,
+      id: 3,
+      images: [
+        "assets/images/Fried_Chicken-1024x536.png",
+      ],
+      title: "Fried Chicken",
+      price: 36.55,
+      isFavourite: true,
   ),
   Food(
-    id: 4,
-    name: "Average-sized chips",
-    image: "assets/images/wireless headset.png",
-    description: description,
-    price: 44.0,
+      id: 4,
+      images: [
+        "assets/images/bibimbap-a-popular-Korean-dish.jpg",
+      ],
+
+      title: "Korean Food",
+      price: 20.20,
+      isFavourite: true,
+  ),
+  Food(
+    id: 5,
+    images: [
+      "assets/images/tra-sua-truyen-thong.jpg",
+    ],
+
+    title: "Milk Tra",
+    price: 10.5,
+    isFavourite: false,
   ),
 ];
-
-const String description = "Some random bullshit description …";
