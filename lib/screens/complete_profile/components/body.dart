@@ -19,12 +19,12 @@ class Body extends StatelessWidget {
                 SizedBox(height: SizeConfig.screenHeight * 0.03),
                 Text("Complete Profile", style: headingStyle),
                 Text(
-                  "Complete your details or continue  \nwith social media",
+                  "Complete your details \nfor registration",
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.06),
                 CompleteProfileForm(),
-                SizedBox(height: getProportionateScreenHeight(30)),
+                SizedBox(height: getProportionateScreenHeight(20)),
                 Text(
                   "By continuing your confirm that you agree \nwith our Term and Condition",
                   textAlign: TextAlign.center,
