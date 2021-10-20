@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/product_card.dart';
 import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/models/Store.dart';
 import 'package:shop_app/screens/home/components/store_card.dart';
 import 'package:shop_app/screens/search/component/store_search_card.dart';
 
@@ -25,10 +26,10 @@ class PopularProducts extends StatelessWidget {
           child: Row(
             children: [
               ...List.generate(
-                demoProducts.length,
+                demoStores.length,
                 (index) {
-                  if (demoProducts[index].isPopular)
-                    return StoreCard(product: demoProducts[index]);
+                  if (demoStores[index].isPopular)
+                    return StoreCard(store: demoStores[index]);
 
                   return SizedBox
                       .shrink(); // here by default width and height is 0
