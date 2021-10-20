@@ -4,6 +4,7 @@ class Store {
   final List<String> images;
   final double rating, distance;
   final bool isPopular;
+  final bool isFavourite;
 
   Store({
     required this.id,
@@ -12,6 +13,7 @@ class Store {
     this.isPopular = false,
     required this.title,
     required this.distance,
+    required this.isFavourite,
   });
 }
 
@@ -26,7 +28,8 @@ List<Store> demoStores = [
       title: "Banh mi Sai Gon",
       rating: 4.8,
       isPopular: true,
-      distance: 4.5
+      distance: 4.5,
+    isFavourite: true
   ),
   Store(
       id: 2,
@@ -36,7 +39,8 @@ List<Store> demoStores = [
       title: "Pho Ha Noi",
       rating: 4.1,
       isPopular: false,
-      distance: 7.9
+      distance: 7.9,
+    isFavourite: false
   ),
   Store(
       id: 3,
@@ -46,7 +50,8 @@ List<Store> demoStores = [
       title: "KFC",
       rating: 4.1,
       isPopular: true,
-      distance: 8.5
+      distance: 8.5,
+      isFavourite: false
   ),
   Store(
       id: 4,
@@ -56,7 +61,8 @@ List<Store> demoStores = [
       title: "Hanuri",
       rating: 4.1,
       isPopular:true,
-      distance: 1.9
+      distance: 1.9,
+    isFavourite: true,
   ),
   Store(
       id: 5,
@@ -66,7 +72,8 @@ List<Store> demoStores = [
       title: "Gong Cha",
       rating: 4.8,
       isPopular:true,
-      distance: 3.2
+      distance: 3.2,
+    isFavourite: false,
   ),
   Store(
       id: 6,
@@ -76,7 +83,8 @@ List<Store> demoStores = [
       title: "Test Store",
       rating: 0.0,
       isPopular:false,
-      distance: 0.0
+      distance: 0.0,
+    isFavourite: true,
   ),
   Store(
       id: 7,
@@ -86,7 +94,8 @@ List<Store> demoStores = [
       title: "Test Store",
       rating: 0.0,
       isPopular:false,
-      distance: 0.0
+      distance: 0.0,
+    isFavourite: true,
   ),
 ];
 

@@ -9,7 +9,7 @@ import 'package:shop_app/size_config.dart';
 class StoreCard extends StatelessWidget {
   const StoreCard({
     Key? key,
-    this.width = 140,
+    this.width = 200,
     this.aspectRetio = 1.02,
     required this.store,
   }) : super(key: key);
@@ -66,11 +66,25 @@ class StoreCard extends StatelessWidget {
                       color: kPrimaryColor,
                     ),
                   ),
-                  Text(
-                    "📍 ${store.distance}km",
-                    style: TextStyle(
-                      fontSize: getProportionateScreenWidth(16),
-                      fontWeight: FontWeight.normal,
+                  InkWell(
+                    borderRadius: BorderRadius.circular(50),
+                    onTap: () {},
+                    child: Container(
+                      padding: EdgeInsets.all(getProportionateScreenWidth(8)),
+                      height: getProportionateScreenWidth(28),
+                      width: getProportionateScreenWidth(28),
+                      decoration: BoxDecoration(
+                        color: store.isFavourite
+                            ? kPrimaryColor.withOpacity(0.15)
+                            : kSecondaryColor.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: SvgPicture.asset(
+                        "assets/icons/Heart Icon_2.svg",
+                        color: store.isFavourite
+                            ? Color(0xFFFF4848)
+                            : Color(0xFFDBDEE4),
+                      ),
                     ),
                   ),
                 ],

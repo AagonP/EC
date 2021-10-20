@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Food.dart';
+import 'package:shop_app/models/Store.dart';
 import 'package:shop_app/screens/details/details_screen.dart';
 import 'package:shop_app/size_config.dart';
 
@@ -10,11 +11,11 @@ class CustomFoodCard extends StatelessWidget {
     Key? key,
     this.width = 140,
     this.aspectRetio = 1.02,
-    required this.food,
+    required this.store,
   }) : super(key: key);
 
   final double width, aspectRetio;
-  final Food food;
+  final Store store;
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +43,11 @@ class CustomFoodCard extends StatelessWidget {
                 //   borderRadius: BorderRadius.circular(15),
                 // ),
                 child: Hero(
-                  tag: food.id.toString(),
+                  tag: store.id.toString(),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
                     child: Image.asset(
-                      food.images[0],
+                      store.images[0],
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -55,7 +56,7 @@ class CustomFoodCard extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             Text(
-              food.title,
+              store.title,
               style: TextStyle(color: Colors.black),
               maxLines: 2,
             ),
@@ -63,11 +64,18 @@ class CustomFoodCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "\$${food.price}",
+                  "⭐ ${store.rating}",
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(18),
                     fontWeight: FontWeight.w600,
                     color: kPrimaryColor,
+                  ),
+                ),
+                Text(
+                  "📍 ${store.distance}km",
+                  style: TextStyle(
+                    fontSize: getProportionateScreenWidth(16),
+                    fontWeight: FontWeight.normal,
                   ),
                 ),
                 InkWell(
@@ -78,14 +86,14 @@ class CustomFoodCard extends StatelessWidget {
                     height: getProportionateScreenWidth(28),
                     width: getProportionateScreenWidth(28),
                     decoration: BoxDecoration(
-                      color: food.isFavourite
+                      color: store.isFavourite
                           ? kPrimaryColor.withOpacity(0.15)
                           : kSecondaryColor.withOpacity(0.1),
                       shape: BoxShape.circle,
                     ),
                     child: SvgPicture.asset(
                       "assets/icons/Heart Icon_2.svg",
-                      color: food.isFavourite
+                      color: store.isFavourite
                           ? Color(0xFFFF4848)
                           : Color(0xFFDBDEE4),
                     ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/models/Food.dart';
+import 'package:shop_app/models/Store.dart';
 import 'package:shop_app/screens/favourite/component/custom_food_card.dart';
 
 class Body extends StatefulWidget {
@@ -23,14 +24,14 @@ class _BodyState extends State<Body> {
         // Generate 100 widgets that display their index in the List.
         children: [
           ...List.generate(
-            demoFoods.length,
+            demoStores.length,
             (index) {
               return Dismissible(
-                key: Key(demoFoods[index].id.toString()),
+                key: Key(demoStores[index].id.toString()),
                 direction: DismissDirection.endToStart,
                 onDismissed: (direction) {
                   setState(() {
-                    demoFoods.removeAt(index);
+                    demoStores.removeAt(index);
                   });
                 },
                 background: Container(
@@ -47,7 +48,7 @@ class _BodyState extends State<Body> {
                   ),
                 ),
                 child: CustomFoodCard(
-                  food: demoFoods[index],
+                  store: demoStores[index],
                 ),
               );
             },
