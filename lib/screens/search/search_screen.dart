@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rubber/rubber.dart';
 import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/models/Store.dart';
 import 'package:shop_app/screens/search/component/store_search_card.dart';
+import 'package:shop_app/size_config.dart';
 
 class SearchScreen extends StatefulWidget {
   static String routeName = "/search";
@@ -81,7 +83,7 @@ class _SearchScreenState extends State<SearchScreen>
 
   Widget _getLowerLayer() {
     return Container(
-      margin: const EdgeInsets.only(top: kToolbarHeight),
+      margin:  EdgeInsets.only(top: getProportionateScreenHeight(20.0)),
       child: Column(
         children: <Widget>[
           Padding(
@@ -103,11 +105,6 @@ class _SearchScreenState extends State<SearchScreen>
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 16.0),
-            // decoration: BoxDecoration(
-            //   border: Border(
-            //     bottom: BorderSide(color: Colors.orange, width: 1),
-            //   ),
-            // ),
             child: TextField(
               controller: searchController,
               onChanged: (value) {
@@ -152,16 +149,17 @@ class _SearchScreenState extends State<SearchScreen>
             child: Container(
               // color: Colors.orange[50],
               child: ListView.builder(
-                itemCount: demoProducts.length,
+                itemCount: demoStores.length,
                 itemBuilder: (context, index) => Padding(
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   child: StoreSearchCard(
-                    product: demoProducts[index],
+                    store: demoStores[index],
                   ),
                 ),
               ),
             ),
-          )
+          ),
+          SizedBox(height: 50,)
         ],
       ),
     );

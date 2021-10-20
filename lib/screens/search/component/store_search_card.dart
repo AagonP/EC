@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/models/Cart.dart';
-import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/models/Store.dart';
 import 'package:shop_app/screens/details/details_screen.dart';
 
 import '../../../constants.dart';
@@ -9,10 +8,10 @@ import '../../../size_config.dart';
 class StoreSearchCard extends StatelessWidget {
   const StoreSearchCard({
     Key? key,
-    required this.product,
+    required this.store,
   }) : super(key: key);
 
-  final Product product;
+  final Store store;
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +33,11 @@ class StoreSearchCard extends StatelessWidget {
                     //   borderRadius: BorderRadius.circular(15),
                     // ),
                     child: Hero(
-                      tag: product.id.toString(),
+                      tag: store.id.toString(),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
                         child: Image.asset(
-                          product.images[0],
+                          store.images[0],
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -51,19 +50,19 @@ class StoreSearchCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    product.title,
+                    store.title,
                     style: TextStyle(color: Colors.black, fontSize: 16),
                     maxLines: 2,
                   ),
                   SizedBox(height: 10),
                   Text.rich(
                     TextSpan(
-                      text: "⭐ ${product.rating}",
+                      text: "⭐ ${store.rating}",
                       style: TextStyle(
                           fontWeight: FontWeight.w600, color: kPrimaryColor),
                       children: [
                         TextSpan(
-                            text: "\t\t\t\t  📍 ${product.distance} km",
+                            text: "\t\t\t\t  📍 ${store.distance} km",
                             style: Theme.of(context).textTheme.bodyText1),
                       ],
                     ),
