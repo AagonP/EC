@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Product.dart';
-import 'package:shop_app/screens/details/details_screen.dart';
+import 'package:shop_app/screens/store/store_screen.dart';
+import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/models/Food.dart';
+
 import 'package:shop_app/size_config.dart';
-
-
 
 class StoreCard extends StatelessWidget {
   const StoreCard({
@@ -26,8 +26,14 @@ class StoreCard extends StatelessWidget {
         width: getProportionateScreenWidth(width),
         child: GestureDetector(
           onTap: () {
-            // TODO: navigate to store screen
-            print('navigate to store screen');
+            Navigator.pushNamed(
+              context,
+              StoreScreen.routeName,
+              arguments: StoreArguments(
+                store: product,
+                foods: demoFoods,
+              ),
+            );
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +52,8 @@ class StoreCard extends StatelessWidget {
                       child: Image.asset(
                         product.images[0],
                         fit: BoxFit.cover,
-                      ),),
+                      ),
+                    ),
                   ),
                 ),
               ),

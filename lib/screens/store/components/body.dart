@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/models/Store.dart';
+import 'package:shop_app/models/Product.dart';
 import 'package:shop_app/models/Food.dart';
 import 'package:shop_app/size_config.dart';
 import 'store_title.dart';
@@ -7,7 +7,7 @@ import 'rounded_container.dart';
 import 'food_list.dart';
 
 class Body extends StatelessWidget {
-  final Store store;
+  final Product store;
   final List<Food> foods;
 
   const Body({

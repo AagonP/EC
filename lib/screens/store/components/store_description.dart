@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shop_app/models/Store.dart';
+import 'package:shop_app/models/Product.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -11,7 +11,7 @@ class StoreDescription extends StatelessWidget {
     required this.store,
   }) : super(key: key);
 
-  final Store store;
+  final Product store;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +22,9 @@ class StoreDescription extends StatelessWidget {
           padding: EdgeInsets.symmetric(
               horizontal: getProportionateScreenWidth(20)),
           child: Container(
+            width: double.infinity,
             child: Text(
-              store.name,
+              store.title,
               style: Theme.of(context).textTheme.headline5?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),

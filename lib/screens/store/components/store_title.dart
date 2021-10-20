@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/models/Store.dart';
+import 'package:shop_app/models/Product.dart';
 import 'store_title_card.dart';
 import 'store_description.dart';
 
@@ -11,7 +11,7 @@ class StoreTitle extends StatelessWidget {
     required this.store,
   }) : super(key: key);
 
-  final Store store;
+  final Product store;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class StoreTitle extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Image.asset(
-          store.image,
+          store.images[0],
           height: getProportionateScreenHeight(270),
         ),
         Positioned(

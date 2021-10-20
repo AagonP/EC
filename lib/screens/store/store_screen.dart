@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../models/Store.dart';
+import 'package:shop_app/models/Product.dart';
+import '../../models/Product.dart';
 import '../../models/Food.dart';
 import 'components/body.dart';
 import 'components/custom_app_bar.dart';
-// import 'package:shop_app/screens/store/store_screen.dart';
-// import 'package:shop_app/models/Store.dart';
-// import 'package:shop_app/models/Food.dart';
+
 
 class StoreScreen extends StatelessWidget {
   static String routeName = "/store";
@@ -29,7 +28,7 @@ class StoreScreen extends StatelessWidget {
 }
 
 class StoreArguments {
-  final Store store;
+  final Product store;
   final List<Food> foods;
 
   StoreArguments({

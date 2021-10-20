@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Product {
   final int id;
-  final String title, description;
+  final String title, description, address;
   final List<String> images;
   final List<Color> colors;
   final double rating, price, distance;
@@ -18,6 +18,7 @@ class Product {
     required this.title,
     required this.price,
     required this.description,
+    required this.address,
     required this.distance,
   });
 }
@@ -42,7 +43,8 @@ List<Product> demoProducts = [
     rating: 4.8,
     isFavourite: true,
     isPopular: true,
-    distance: 4.5
+    distance: 4.5,
+    address: "397a Le Dai Hanh, P.11, District 10, Ho Chi Minh city",
   ),
   Product(
     id: 2,
@@ -60,7 +62,8 @@ List<Product> demoProducts = [
     description: description,
     rating: 4.1,
     isPopular: true,
-    distance: 7.9
+    distance: 7.9,
+    address: "397a Le Dai Hanh, P.11, District 10, Ho Chi Minh city",
   ),
   Product(
     id: 3,
@@ -79,7 +82,8 @@ List<Product> demoProducts = [
     rating: 4.1,
     isFavourite: true,
     isPopular: true,
-    distance: 8.5
+    distance: 8.5,
+    address: "397a Le Dai Hanh, P.11, District 10, Ho Chi Minh city",
   ),
   Product(
     id: 4,
@@ -98,7 +102,8 @@ List<Product> demoProducts = [
     rating: 4.1,
     isFavourite: true,
     isPopular:false,
-    distance: 1.9
+    distance: 1.9,
+    address: "397a Le Dai Hanh, P.11, District 10, Ho Chi Minh city",
   ),
 ];
 
