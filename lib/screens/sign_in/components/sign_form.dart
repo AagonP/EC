@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/form_error.dart';
+import 'package:shop_app/helper/auth.dart';
 import 'package:shop_app/helper/keyboard.dart';
 import 'package:shop_app/screens/login_success/login_success_screen.dart';
 
@@ -36,6 +39,7 @@ class _SignFormState extends State<SignForm> {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
     return Form(
       key: _formKey,
       child: Column(
@@ -48,12 +52,28 @@ class _SignFormState extends State<SignForm> {
           SizedBox(height: getProportionateScreenHeight(20)),
           DefaultButton(
             text: "Continue",
-            press: () {
+            press: () async {
+              KeyboardUtil.hideKeyboard(context);
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
-                KeyboardUtil.hideKeyboard(context);
-                Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+                dynamic res =
+                    await context.read<AuthenticationService>().signIn(
+                          email: email!.trim(),
+                          password: password!.trim(),
+                        );
+
+                if (res == 'Signed in') {
+                  print('success');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Sign In Success')));
+                  Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Invalid email or password')));
+                }
+
+                // Navigator.pushNamed(context, LoginSuccessScreen.routeName);
               }
             },
           ),
