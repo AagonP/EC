@@ -19,6 +19,7 @@ class Body extends StatelessWidget {
         Image.asset(
           food.images[0],
           height: getProportionateScreenHeight(290),
+          width: getProportionateScreenWidth(401),
           fit: BoxFit.fill,
         ),
         TopRoundedContainer(
