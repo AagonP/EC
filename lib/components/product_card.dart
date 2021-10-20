@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shop_app/models/Food.dart';
-import 'package:shop_app/screens/food_details/food_details_screen.dart';
+import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/screens/details/details_screen.dart';
 
 import '../constants.dart';
 import '../size_config.dart';
@@ -11,11 +11,11 @@ class ProductCard extends StatelessWidget {
     Key? key,
     this.width = 140,
     this.aspectRetio = 1.02,
-    required this.food,
+    required this.product,
   }) : super(key: key);
 
   final double width, aspectRetio;
-  final Food food;
+  final Product product;
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +26,8 @@ class ProductCard extends StatelessWidget {
         child: GestureDetector(
           onTap: () => Navigator.pushNamed(
             context,
-            FoodDetailsScreen.routeName,
-            arguments: FoodDetailsArguments(food: food),
+            DetailsScreen.routeName,
+            arguments: ProductDetailsArguments(product: product),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,11 +40,11 @@ class ProductCard extends StatelessWidget {
                   //   borderRadius: BorderRadius.circular(15),
                   // ),
                   child: Hero(
-                    tag: food.id.toString(),
+                    tag: product.id.toString(),
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
                         child: Image.asset(
-                      food.images[0],
+                      product.images[0],
                       fit: BoxFit.cover,
                     ),),
                   ),
@@ -52,7 +52,7 @@ class ProductCard extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                food.title,
+                product.title,
                 style: TextStyle(color: Colors.black),
                 maxLines: 2,
               ),
@@ -75,14 +75,14 @@ class ProductCard extends StatelessWidget {
                       height: getProportionateScreenWidth(28),
                       width: getProportionateScreenWidth(28),
                       decoration: BoxDecoration(
-                        color: food.isFavourite
+                        color: product.isFavourite
                             ? kPrimaryColor.withOpacity(0.15)
                             : kSecondaryColor.withOpacity(0.1),
                         shape: BoxShape.circle,
                       ),
                       child: SvgPicture.asset(
                         "assets/icons/Heart Icon_2.svg",
-                        color: food.isFavourite
+                        color: product.isFavourite
                             ? Color(0xFFFF4848)
                             : Color(0xFFDBDEE4),
                       ),

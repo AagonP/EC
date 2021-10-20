@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/rounded_icon_btn.dart';
-import 'package:shop_app/models/Food.dart';
+import 'package:shop_app/models/Product.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -8,25 +8,24 @@ import '../../../size_config.dart';
 class ColorDots extends StatelessWidget {
   const ColorDots({
     Key? key,
-    required this.food,
+    required this.product,
   }) : super(key: key);
 
-  final Food food;
+  final Product product;
 
   @override
   Widget build(BuildContext context) {
-    List<Color> testColors = [Colors.white, Colors.black];
     // Now this is fixed and only for demo
     int selectedColor = 3;
     return Padding(
       padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+      EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
       child: Row(
         children: [
           ...List.generate(
-            testColors.length,
-            (index) => ColorDot(
-              color: testColors[index],
+            product.colors.length,
+                (index) => ColorDot(
+              color: product.colors[index],
               isSelected: index == selectedColor,
             ),
           ),
@@ -67,7 +66,7 @@ class ColorDot extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.transparent,
         border:
-            Border.all(color: isSelected ? kPrimaryColor : Colors.transparent),
+        Border.all(color: isSelected ? kPrimaryColor : Colors.transparent),
         shape: BoxShape.circle,
       ),
       child: DecoratedBox(

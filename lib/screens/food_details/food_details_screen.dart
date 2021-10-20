@@ -15,9 +15,11 @@ class FoodDetailsScreen extends StatelessWidget {
       backgroundColor: Color(0xFFF5F6F9),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(AppBar().preferredSize.height),
-        child: CustomAppBar(rating: 0.0),
+        child: CustomAppBar(),
       ),
-      body: Body(food: agrs.food),
+      body: Body(
+        food: agrs.food,
+      ),
     );
   }
 }
