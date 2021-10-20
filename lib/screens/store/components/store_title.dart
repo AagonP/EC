@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/models/Store.dart';
 import 'store_title_card.dart';
 import 'store_description.dart';
 
@@ -11,7 +11,7 @@ class StoreTitle extends StatelessWidget {
     required this.store,
   }) : super(key: key);
 
-  final Product store;
+  final Store store;
 
   @override
   Widget build(BuildContext context) {

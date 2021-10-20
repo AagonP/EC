@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/models/Store.dart';
 
-import '../../../constants.dart';
 import '../../../size_config.dart';
 
 class StoreDescription extends StatelessWidget {
@@ -11,12 +10,13 @@ class StoreDescription extends StatelessWidget {
     required this.store,
   }) : super(key: key);
 
-  final Product store;
+  final Store store;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(
@@ -29,7 +29,7 @@ class StoreDescription extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
               textAlign: TextAlign.center,
-              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ),
@@ -60,6 +60,7 @@ class StoreDescription extends StatelessWidget {
               store.address,
               textAlign: TextAlign.center,
               maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ),

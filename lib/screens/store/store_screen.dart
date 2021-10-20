@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/models/Product.dart';
-import '../../models/Product.dart';
+import '../../models/Store.dart';
 import '../../models/Food.dart';
 import 'components/body.dart';
 import 'components/custom_app_bar.dart';
@@ -28,7 +27,7 @@ class StoreScreen extends StatelessWidget {
 }
 
 class StoreArguments {
-  final Product store;
+  final Store store;
   final List<Food> foods;
 
   StoreArguments({

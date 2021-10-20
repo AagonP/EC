@@ -38,7 +38,7 @@ class FoodTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(food.name),
+                      Text(food.title),
                       Text("${food.price.toString()} VND"),
                     ],
                   ),
@@ -47,7 +47,7 @@ class FoodTile extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15),
                   child: Image.asset(
-                    food.image,
+                    food.images[0],
                     height: getProportionateScreenHeight(69),
                     fit: BoxFit.fill,
                   ),
