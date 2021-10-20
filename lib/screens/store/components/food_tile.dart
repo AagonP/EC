@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/models/Food.dart';
+import 'package:shop_app/screens/food_details/food_details_screen.dart';
+
 import 'package:shop_app/size_config.dart';
 
 class FoodTile extends StatelessWidget {
@@ -14,14 +16,13 @@ class FoodTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigator.pushNamed(
-        //   context,
-        //   FoodDetailsScreen.routeName,
-        //   arguments: FoodDetailsArguments(
-        //     food: food,
-        //   ),
-        // );
-        print(food.id);
+        Navigator.pushNamed(
+          context,
+          FoodDetailsScreen.routeName,
+          arguments: FoodDetailsArguments(
+            food: food,
+          ),
+        );
       },
       child: Column(
         children: [

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Food.dart';
-import 'package:shop_app/screens/details/details_screen.dart';
+import 'package:shop_app/screens/food_details/food_details_screen.dart';
 import 'package:shop_app/size_config.dart';
 
 class CustomFoodCard extends StatelessWidget {

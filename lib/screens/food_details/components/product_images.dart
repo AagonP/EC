@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/models/Food.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
-class ProductImages extends StatefulWidget {
-  const ProductImages({
+class FoodImages extends StatefulWidget {
+  const FoodImages({
     Key? key,
-    required this.product,
+    required this.food,
   }) : super(key: key);
 
-  final Product product;
+  final Food food;
 
   @override
-  _ProductImagesState createState() => _ProductImagesState();
+  _FoodImagesState createState() => _FoodImagesState();
 }
 
-class _ProductImagesState extends State<ProductImages> {
+class _FoodImagesState extends State<FoodImages> {
   int selectedImage = 0;
   @override
   Widget build(BuildContext context) {
@@ -27,8 +27,8 @@ class _ProductImagesState extends State<ProductImages> {
           child: AspectRatio(
             aspectRatio: 1,
             child: Hero(
-              tag: widget.product.id.toString(),
-              child: Image.asset(widget.product.images[selectedImage]),
+              tag: widget.food.id.toString(),
+              child: Image.asset(widget.food.images[selectedImage]),
             ),
           ),
         ),
@@ -36,7 +36,7 @@ class _ProductImagesState extends State<ProductImages> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ...List.generate(widget.product.images.length,
+            ...List.generate(widget.food.images.length,
                 (index) => buildSmallProductPreview(index)),
           ],
         )
@@ -63,7 +63,7 @@ class _ProductImagesState extends State<ProductImages> {
           border: Border.all(
               color: kPrimaryColor.withOpacity(selectedImage == index ? 1 : 0)),
         ),
-        child: Image.asset(widget.product.images[index]),
+        child: Image.asset(widget.food.images[index]),
       ),
     );
   }

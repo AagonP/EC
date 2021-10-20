@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/components/rounded_icon_btn.dart';
-import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/models/Food.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -8,13 +8,14 @@ import '../../../size_config.dart';
 class ColorDots extends StatelessWidget {
   const ColorDots({
     Key? key,
-    required this.product,
+    required this.food,
   }) : super(key: key);
 
-  final Product product;
+  final Food food;
 
   @override
   Widget build(BuildContext context) {
+    List<Color> testColors = [Colors.white, Colors.black];
     // Now this is fixed and only for demo
     int selectedColor = 3;
     return Padding(
@@ -23,9 +24,9 @@ class ColorDots extends StatelessWidget {
       child: Row(
         children: [
           ...List.generate(
-            product.colors.length,
+            testColors.length,
             (index) => ColorDot(
-              color: product.colors[index],
+              color: testColors[index],
               isSelected: index == selectedColor,
             ),
           ),
