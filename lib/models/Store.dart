@@ -3,7 +3,10 @@ class Store {
   final String title, address;
   final List<String> images;
   final double rating, distance;
-  final bool isPopular, isFavourite;
+
+  final bool isPopular;
+  final bool isFavourite;
+
 
   Store({
     required this.id,

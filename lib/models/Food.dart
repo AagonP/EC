@@ -3,12 +3,10 @@ class Food {
   final String title;
   final List<String> images;
   final double price;
-  final bool isFavourite;
 
   Food({
     required this.id,
     required this.images,
-    this.isFavourite = false,
     required this.title,
     required this.price,
   });
@@ -22,7 +20,6 @@ List<Food> demoFoods = [
       ],
       title: "Bread",
       price: 64.99,
-      isFavourite: true,
   ),
   Food(
       id: 2,
@@ -31,7 +28,6 @@ List<Food> demoFoods = [
       ],
       title: "Pho",
       price: 50.5,
-    isFavourite: false,
   ),
   Food(
       id: 3,
@@ -40,7 +36,6 @@ List<Food> demoFoods = [
       ],
       title: "Fried Chicken",
       price: 36.55,
-      isFavourite: true,
   ),
   Food(
       id: 4,
@@ -50,7 +45,6 @@ List<Food> demoFoods = [
 
       title: "Korean Food",
       price: 20.20,
-      isFavourite: true,
   ),
   Food(
     id: 5,
@@ -60,6 +54,5 @@ List<Food> demoFoods = [
 
     title: "Milk Tra",
     price: 10.5,
-    isFavourite: false,
   ),
 ];
