@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/helper/auth.dart';
 import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/models/Food.dart';
 import 'package:shop_app/models/Product.dart';
@@ -8,7 +10,6 @@ import 'package:shop_app/models/Product.dart';
 import '../../../size_config.dart';
 import 'cart_card.dart';
 
-final uid = 'mock_user_id';
 List<int> quanities = [];
 
 Future<List<Food>> queryFoodInCart(String uid) async {
@@ -61,6 +62,9 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
+    final uid = Provider.of<AuthenticationService>(context, listen: false)
+        .getUser()!
+        .uid;
     return Padding(
       padding:
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),

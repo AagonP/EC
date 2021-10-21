@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/models/Food.dart';
 import 'package:shop_app/screens/cart/components/body.dart';
 import 'package:shop_app/size_config.dart';
+import '../../../helper/auth.dart';
 
 import 'quantity_config.dart';
 import 'food_description.dart';
@@ -49,9 +51,17 @@ class Body extends StatelessWidget {
                         ),
                         child: DefaultButton(
                           text: "Add To Cart",
-                          press: () {
+                          press: () async {
+                            final uid = Provider.of<AuthenticationService>(
+                                    context,
+                                    listen: false)
+                                .getUser()!
+                                .uid;
+                            if (!await isOrderCreated(uid)) {
+                              await createOrder(uid);
+                            }
                             addItemToCart(quantityConfig.quantity,
-                                (food.id).toString(), food.price);
+                                (food.id).toString(), food.price, uid);
                           },
                         ),
                       ),
@@ -65,13 +75,44 @@ class Body extends StatelessWidget {
       ],
     );
   }
+
+  Future<void> createOrder(String uid) async {
+    final order = FirebaseFirestore.instance.collection('orders');
+    // Create new order for the user
+    await order.doc(uid).set(
+      {
+        'total': '0.00',
+        'expire_time': '',
+      },
+    ).catchError((error) => print("Failed to create order: $error"));
+    await order.doc(uid).collection('foods').doc('no_item').set(
+      {
+        'no_item': '0',
+      },
+    ).catchError((error) => print("Failed to create order: $error"));
+  }
 }
 
-void addItemToCart(int quantity, String foodId, double foodPrice) {
-  final uid = 'mock_user_id';
+Future<bool> isOrderCreated(String uid) async {
+  bool isCreated = false;
+  await FirebaseFirestore.instance.collection('orders').doc(uid).get().then(
+    (DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        // Order is  already created
+        isCreated = true;
+      } else {
+        isCreated = false;
+      }
+    },
+  );
+  return isCreated;
+}
+
+Future<void> addItemToCart(
+    int quantity, String foodId, double foodPrice, String uid) async {
   // Food selected will be post to orders collection in Firestore
   // If the food item is not in the cart
-  FirebaseFirestore.instance.collection('orders').doc(uid).get().then(
+  await FirebaseFirestore.instance.collection('orders').doc(uid).get().then(
     (DocumentSnapshot<Map> documentSnapshot) {
       final String new_total =
           (double.parse(documentSnapshot.data()!['total']) +
@@ -88,7 +129,7 @@ void addItemToCart(int quantity, String foodId, double foodPrice) {
       .doc(uid)
       .collection('foods');
 
-  orders.doc(foodId).get().then(
+  await orders.doc(foodId).get().then(
     (DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
         // Food item already in cart
@@ -110,7 +151,7 @@ void addItemToCart(int quantity, String foodId, double foodPrice) {
     },
   );
   // Update total number of items
-  orders.doc('no_item').get().then((DocumentSnapshot documentSnapshot) {
+  await orders.doc('no_item').get().then((DocumentSnapshot documentSnapshot) {
     final String new_total_items =
         (int.parse(documentSnapshot['no_item']) + quantity).toString();
     orders.doc('no_item').update({
