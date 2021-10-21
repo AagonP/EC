@@ -62,7 +62,10 @@ class _SignUpFormState extends State<SignUpForm> {
                         );
 
                 if (result == "Signed up") {
-                  print('success');
+                  await context.read<AuthenticationService>().signIn(
+                    email: email!.trim(),
+                    password: password!.trim(),
+                  );
                   ScaffoldMessenger.of(context)
                       .showSnackBar(SnackBar(content: Text('Sign Up Success')));
                   Navigator.pushNamed(context, CompleteProfileScreen.routeName);

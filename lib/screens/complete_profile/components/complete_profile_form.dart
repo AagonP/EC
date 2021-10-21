@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shop_app/components/custom_surfix_icon.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/components/form_error.dart';
-import 'package:shop_app/screens/otp/otp_screen.dart';
+import 'package:shop_app/screens/home/home_screen.dart';
+import 'package:shop_app/helper/auth.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -51,9 +53,27 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
             text: "continue",
-            press: () {
+            press: () async {
               if (_formKey.currentState!.validate()) {
-                Navigator.pushNamed(context, OtpScreen.routeName);
+                _formKey.currentState!.save();
+
+                // If all are valid then go to HomePage screen
+                final result =
+                    await context.read<AuthenticationService>().completeProfile(
+                          firstName: firstName!.trim(),
+                          lastName: lastName!.trim(),
+                          phoneNumber: phoneNumber!.trim(),
+                          address: address!.trim(),
+                        );
+
+                if (result == "Profile completed") {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text('Your profile is completed')));
+                  Navigator.pushNamed(context, HomeScreen.routeName);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('There is something wrong, please retry')));
+                }
               }
             },
           ),
