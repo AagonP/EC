@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // TODO: You should define the list of STORES as the following format
+// TODO: If you add store, you must change the parameters of the press function of the "Add Data" Button defined at "lib/screens/splash/components/body.dart"
 List<Map<String, dynamic>> stores = [
   {
     "title": "Pho Hung",
@@ -65,7 +66,8 @@ List<Map<String, dynamic>> foods = [
     "price": 60,
     "description":
         "Bun bo Hue originated in the beautiful ancient city of Hue in Central Vietnam famous for its Royal Cuisine. Like the more famous Pho Bo, it is a beef noodle dish but is distinctly different due to its history and origins. It is a noodle soup with a rich spicy broth, it contains slices of beef or pork and is topped with leaves and herbs as so many Vietnamese dishes are. It is a meal full of flavours and textural contrasts.",
-    "imageURL": "https://culturephamtravel.com/wp-content/uploads/2020/02/Noodle-soup-with-Beef-culture-pham-travel-1.jpg",
+    "imageURL":
+        "https://culturephamtravel.com/wp-content/uploads/2020/02/Noodle-soup-with-Beef-culture-pham-travel-1.jpg",
     "categories": ["Bun/Pho"],
     "store_id": "QFcvyNuse1FwCXQMINM5",
   },
@@ -73,8 +75,9 @@ List<Map<String, dynamic>> foods = [
     "title": "Bun Bo Hue - beef only",
     "price": 45,
     "description":
-    "Bun bo Hue originated in the beautiful ancient city of Hue in Central Vietnam famous for its Royal Cuisine. Like the more famous Pho Bo, it is a beef noodle dish but is distinctly different due to its history and origins. It is a noodle soup with a rich spicy broth, it contains slices of beef or pork and is topped with leaves and herbs as so many Vietnamese dishes are. It is a meal full of flavours and textural contrasts.",
-    "imageURL": "https://ngonaz.com/wp-content/uploads/2021/09/cach-nau-bun-bo-hue-10.jpg",
+        "Bun bo Hue originated in the beautiful ancient city of Hue in Central Vietnam famous for its Royal Cuisine. Like the more famous Pho Bo, it is a beef noodle dish but is distinctly different due to its history and origins. It is a noodle soup with a rich spicy broth, it contains slices of beef or pork and is topped with leaves and herbs as so many Vietnamese dishes are. It is a meal full of flavours and textural contrasts.",
+    "imageURL":
+        "https://ngonaz.com/wp-content/uploads/2021/09/cach-nau-bun-bo-hue-10.jpg",
     "categories": ["Bun/Pho"],
     "store_id": "QFcvyNuse1FwCXQMINM5",
   },
@@ -82,7 +85,7 @@ List<Map<String, dynamic>> foods = [
     "title": "Bun Bo Hue - no pork foot",
     "price": 55,
     "description":
-    "Bun bo Hue originated in the beautiful ancient city of Hue in Central Vietnam famous for its Royal Cuisine. Like the more famous Pho Bo, it is a beef noodle dish but is distinctly different due to its history and origins. It is a noodle soup with a rich spicy broth, it contains slices of beef or pork and is topped with leaves and herbs as so many Vietnamese dishes are. It is a meal full of flavours and textural contrasts.",
+        "Bun bo Hue originated in the beautiful ancient city of Hue in Central Vietnam famous for its Royal Cuisine. Like the more famous Pho Bo, it is a beef noodle dish but is distinctly different due to its history and origins. It is a noodle soup with a rich spicy broth, it contains slices of beef or pork and is topped with leaves and herbs as so many Vietnamese dishes are. It is a meal full of flavours and textural contrasts.",
     "imageURL": "https://bep360.net/wp-content/uploads/2021/05/bun-bo-hue.jpg",
     "categories": ["Bun/Pho"],
     "store_id": "QFcvyNuse1FwCXQMINM5",
@@ -138,7 +141,6 @@ Future<void> addData(String collection, Map<String, dynamic> data) {
 // Main function where addData is called
 void mainAddData(
     {required String collection, required List<Map<String, dynamic>> data}) {
-  // TODO: Remember to change the collection name
   for (var i = 0; i < data.length; i++) {
     addData(collection, data[i]);
   }
