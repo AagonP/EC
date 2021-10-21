@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants.dart';
+import 'package:shop_app/helper/auth.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shop_app/size_config.dart';
+import 'package:provider/provider.dart';
 
 // This is the best practice
 import '../components/splash_content.dart';
@@ -24,7 +27,8 @@ class _BodyState extends State<Body> {
       "image": "assets/images/Diet-amico.png"
     },
     {
-      "text": "Connect with stores",
+      "text":
+      "Connect with stores",
       "image": "assets/images/Coffee shop-bro.png"
     },
     {
@@ -32,7 +36,6 @@ class _BodyState extends State<Body> {
       "image": "assets/images/Take Away-cuate.png"
     },
   ];
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -67,28 +70,26 @@ class _BodyState extends State<Body> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(
                         splashData.length,
-                        (index) => buildDot(index: index),
+                            (index) => buildDot(index: index),
                       ),
                     ),
                     Spacer(flex: 3),
                     DefaultButton(
                       text: "Continue",
                       press: () {
-                        // Navigator.pushNamed(context, SignInScreen.routeName);
-                        Navigator.pushNamed(context, HomeScreen.routeName);
-
-                        User? user =
-                            context.read<AuthenticationService>().getUser();
+                        User? user = context.read<AuthenticationService>().getUser();
                         print(user);
-                        if (user == null) {
+                        if (user == null){
                           Navigator.pushNamed(context, SignInScreen.routeName);
-                        } else {
+                        }else{
                           Navigator.pushNamed(context, HomeScreen.routeName);
                         }
+
+
+
                       },
                     ),
                     Spacer(),
-                    // TODO: This should be deleted later
                     TextButton(
                       child: Text("Add Data"),
                       onPressed: () {
@@ -100,55 +101,55 @@ class _BodyState extends State<Body> {
                             "rating": 4.1,
                             "isPopular": false,
                             "imageURL":
-                                "https://www.disneycooking.com/wp-content/uploads/2020/03/hoc-nau-pho-gia-truyen.jpg",
+                            "https://www.disneycooking.com/wp-content/uploads/2020/03/hoc-nau-pho-gia-truyen.jpg",
                             "foods": [""],
                             "distance": 1.5,
                             "address":
-                                "397a Le Dai Hanh street, ward 11, district 10, Ho Chi Minh city",
+                            "397a Le Dai Hanh street, ward 11, district 10, Ho Chi Minh city",
                           },
                           {
                             "title": "Banh mi Sai Gon",
                             "rating": 4.8,
                             "isPopular": true,
                             "imageURL":
-                                "https://cdnmedia.thethaovanhoa.vn/Upload/tyTrfgkgEUQwPYuvZ4Kn1g/files/2020/03/3203/4w5thy.jpg",
+                            "https://cdnmedia.thethaovanhoa.vn/Upload/tyTrfgkgEUQwPYuvZ4Kn1g/files/2020/03/3203/4w5thy.jpg",
                             "foods": [""],
                             "distance": 4,
                             "address":
-                                "1, Bui Thi Xuan street, ward 4, district 1, Ho Chi Minh city"
+                            "1, Bui Thi Xuan street, ward 4, district 1, Ho Chi Minh city"
                           },
                           {
                             "title": "KFC",
                             "rating": 4.1,
                             "isPopular": true,
                             "imageURL":
-                                "https://images.foody.vn/res/g1/1488/prof/s640x400/image-3b2daeee-201123110753.jpeg",
+                            "https://images.foody.vn/res/g1/1488/prof/s640x400/image-3b2daeee-201123110753.jpeg",
                             "foods": [""],
                             "distance": 4.5,
                             "address":
-                                "102, Ngo Gia Tu street, ward 6, district 5, Ho Chi Minh city"
+                            "102, Ngo Gia Tu street, ward 6, district 5, Ho Chi Minh city"
                           },
                           {
                             "title": "Hanuri",
                             "rating": 4.7,
                             "isPopular": true,
                             "imageURL":
-                                "https://toplist.vn/images/800px/bibimbap-korean-food-quan-han-thich-hop-cho-cac-cap-doi-89319.jpg",
+                            "https://toplist.vn/images/800px/bibimbap-korean-food-quan-han-thich-hop-cho-cac-cap-doi-89319.jpg",
                             "foods": [""],
                             "distance": 1.9,
                             "address":
-                                "102, Su Van Hanh street, ward 5, district 10, Ho Chi Minh city"
+                            "102, Su Van Hanh street, ward 5, district 10, Ho Chi Minh city"
                           },
                           {
                             "title": "Gong Cha",
                             "rating": 4.8,
                             "isPopular": true,
                             "imageURL":
-                                "http://gongcha.com.vn/wp-content/uploads/2018/06/Hinh-Web-OKINAWA-LATTE.png",
+                            "http://gongcha.com.vn/wp-content/uploads/2018/06/Hinh-Web-OKINAWA-LATTE.png",
                             "foods": [""],
                             "distance": 3.2,
                             "address":
-                                "31a, Le Dai Hanh street, ward 11, district 10, Ho Chi Minh city",
+                            "31a, Le Dai Hanh street, ward 11, district 10, Ho Chi Minh city",
                           },
                         ];
 
@@ -159,7 +160,6 @@ class _BodyState extends State<Body> {
                         );
                       },
                     ),
-                    Spacer(),
                   ],
                 ),
               ),
@@ -183,3 +183,4 @@ class _BodyState extends State<Body> {
     );
   }
 }
+
