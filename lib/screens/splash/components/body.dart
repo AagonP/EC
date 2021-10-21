@@ -21,8 +21,7 @@ class _BodyState extends State<Body> {
       "image": "assets/images/Diet-amico.png"
     },
     {
-      "text":
-          "Connect with stores",
+      "text": "Connect with stores",
       "image": "assets/images/Coffee shop-bro.png"
     },
     {
@@ -30,6 +29,7 @@ class _BodyState extends State<Body> {
       "image": "assets/images/Take Away-cuate.png"
     },
   ];
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -73,7 +73,6 @@ class _BodyState extends State<Body> {
                       press: () {
                         // Navigator.pushNamed(context, SignInScreen.routeName);
                         Navigator.pushNamed(context, HomeScreen.routeName);
-
                       },
                     ),
                     Spacer(),
