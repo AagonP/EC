@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants.dart';
+import 'package:shop_app/helper/auth.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shop_app/size_config.dart';
+import 'package:provider/provider.dart';
 
 // This is the best practice
 import '../components/splash_content.dart';
@@ -71,6 +74,14 @@ class _BodyState extends State<Body> {
                     DefaultButton(
                       text: "Continue",
                       press: () {
+                        User? user =
+                            context.read<AuthenticationService>().getUser();
+                        print(user);
+                        if (user == null) {
+                          Navigator.pushNamed(context, SignInScreen.routeName);
+                        } else {
+                          Navigator.pushNamed(context, HomeScreen.routeName);
+                        }
                         // Navigator.pushNamed(context, SignInScreen.routeName);
                         Navigator.pushNamed(context, HomeScreen.routeName);
                       },
