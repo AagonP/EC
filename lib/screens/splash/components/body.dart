@@ -1,18 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants.dart';
-import 'package:shop_app/helper/auth.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
 import 'package:shop_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shop_app/size_config.dart';
-import 'package:provider/provider.dart';
 
 // This is the best practice
 import '../components/splash_content.dart';
 import '../../../components/default_button.dart';
-
-// TODO: This should be deleted later
-import 'package:shop_app/helper/data_gen_script.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -28,7 +22,7 @@ class _BodyState extends State<Body> {
     },
     {
       "text":
-      "Connect with stores",
+          "Connect with stores",
       "image": "assets/images/Coffee shop-bro.png"
     },
     {
@@ -70,36 +64,19 @@ class _BodyState extends State<Body> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(
                         splashData.length,
-                            (index) => buildDot(index: index),
+                        (index) => buildDot(index: index),
                       ),
                     ),
                     Spacer(flex: 3),
                     DefaultButton(
                       text: "Continue",
                       press: () {
-                        User? user = context.read<AuthenticationService>().getUser();
-                        print(user);
-                        if (user == null){
-                          Navigator.pushNamed(context, SignInScreen.routeName);
-                        }else{
-                          Navigator.pushNamed(context, HomeScreen.routeName);
-                        }
-
-
+                        // Navigator.pushNamed(context, SignInScreen.routeName);
+                        Navigator.pushNamed(context, HomeScreen.routeName);
 
                       },
                     ),
                     Spacer(),
-                    TextButton(
-                      child: Text("Add Data"),
-                      onPressed: () {
-                        // TODO: You should change the function parameters
-                        mainAddData(
-                          collection: "foods",
-                          data: foods,
-                        );
-                      },
-                    ),
                   ],
                 ),
               ),
@@ -123,4 +100,3 @@ class _BodyState extends State<Body> {
     );
   }
 }
-
