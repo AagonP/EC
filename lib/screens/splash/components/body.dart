@@ -82,8 +82,6 @@ class _BodyState extends State<Body> {
                         } else {
                           Navigator.pushNamed(context, HomeScreen.routeName);
                         }
-                        // Navigator.pushNamed(context, SignInScreen.routeName);
-                        Navigator.pushNamed(context, HomeScreen.routeName);
                       },
                     ),
                     Spacer(),
