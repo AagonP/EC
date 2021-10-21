@@ -37,7 +37,7 @@ class _ProductImagesState extends State<ProductImages> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ...List.generate(widget.product.images.length,
-                (index) => buildSmallProductPreview(index)),
+                    (index) => buildSmallProductPreview(index)),
           ],
         )
       ],

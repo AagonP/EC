@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shop_app/constants.dart';
+import 'dart:math';
+var rng = new Random();
 
 class ProfilePic extends StatelessWidget {
   const ProfilePic({
@@ -16,7 +19,8 @@ class ProfilePic extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           CircleAvatar(
-            backgroundImage: AssetImage("assets/images/Profile Image.png"),
+            backgroundColor: kPrimaryLightColor,
+            backgroundImage: NetworkImage('https://robohash.org/${rng.nextInt(100).toString()}'),
           ),
           Positioned(
             right: -16,

@@ -21,6 +21,8 @@ class StoreTitle extends StatelessWidget {
         Image.asset(
           store.images[0],
           height: getProportionateScreenHeight(270),
+          width: getProportionateScreenWidth(401),
+          fit: BoxFit.fill,
         ),
         Positioned(
           top: getProportionateScreenHeight(180),

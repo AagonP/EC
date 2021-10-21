@@ -59,14 +59,14 @@ class ProductCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "⭐ ${product.rating}",
-                    style: TextStyle(
-                      fontSize: getProportionateScreenWidth(18),
-                      fontWeight: FontWeight.w600,
-                      color: kPrimaryColor,
-                    ),
-                  ),
+                  // Text(
+                  //   "⭐ ${food.rating}",
+                  //   style: TextStyle(
+                  //     fontSize: getProportionateScreenWidth(18),
+                  //     fontWeight: FontWeight.w600,
+                  //     color: kPrimaryColor,
+                  //   ),
+                  // ),
                   InkWell(
                     borderRadius: BorderRadius.circular(50),
                     onTap: () {},

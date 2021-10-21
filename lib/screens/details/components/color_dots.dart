@@ -19,12 +19,12 @@ class ColorDots extends StatelessWidget {
     int selectedColor = 3;
     return Padding(
       padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+      EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
       child: Row(
         children: [
           ...List.generate(
             product.colors.length,
-            (index) => ColorDot(
+                (index) => ColorDot(
               color: product.colors[index],
               isSelected: index == selectedColor,
             ),
@@ -66,7 +66,7 @@ class ColorDot extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.transparent,
         border:
-            Border.all(color: isSelected ? kPrimaryColor : Colors.transparent),
+        Border.all(color: isSelected ? kPrimaryColor : Colors.transparent),
         shape: BoxShape.circle,
       ),
       child: DecoratedBox(

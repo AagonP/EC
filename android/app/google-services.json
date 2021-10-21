@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "227020836725",
+    "project_id": "eatify-e4bbc",
+    "storage_bucket": "eatify-e4bbc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:227020836725:android:675c3130dd67f8d82b4d3c",
+        "android_client_info": {
+          "package_name": "com.bachkhoa.eatify123"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "227020836725-hacv01jmjfd8fq92o32070n17osl1bfn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMkiEMIvbAS8RU9qeSk8f1O01cH1Jr-XQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "227020836725-hacv01jmjfd8fq92o32070n17osl1bfn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
