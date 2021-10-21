@@ -27,8 +27,7 @@ class _BodyState extends State<Body> {
       "image": "assets/images/Diet-amico.png"
     },
     {
-      "text":
-      "Connect with stores",
+      "text": "Connect with stores",
       "image": "assets/images/Coffee shop-bro.png"
     },
     {
@@ -36,6 +35,7 @@ class _BodyState extends State<Body> {
       "image": "assets/images/Take Away-cuate.png"
     },
   ];
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -70,23 +70,21 @@ class _BodyState extends State<Body> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(
                         splashData.length,
-                            (index) => buildDot(index: index),
+                        (index) => buildDot(index: index),
                       ),
                     ),
                     Spacer(flex: 3),
                     DefaultButton(
                       text: "Continue",
                       press: () {
-                        User? user = context.read<AuthenticationService>().getUser();
+                        User? user =
+                            context.read<AuthenticationService>().getUser();
                         print(user);
-                        if (user == null){
+                        if (user == null) {
                           Navigator.pushNamed(context, SignInScreen.routeName);
-                        }else{
+                        } else {
                           Navigator.pushNamed(context, HomeScreen.routeName);
                         }
-
-
-
                       },
                     ),
                     Spacer(),
@@ -123,4 +121,3 @@ class _BodyState extends State<Body> {
     );
   }
 }
-
