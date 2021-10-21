@@ -91,6 +91,8 @@ class CheckoutCard extends StatelessWidget {
                           .uid;
                       if (isPaypalPaymentValid(total)) {
                         await processPayment(total, uid);
+                        await deleteOrder(uid);
+                        Navigator.of(context).pop();
                       }
                     },
                   ),
@@ -102,6 +104,34 @@ class CheckoutCard extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> deleteOrder(String uid) async {
+  // delete items from cart
+  var collection = FirebaseFirestore.instance
+      .collection('orders')
+      .doc(uid)
+      .collection('foods');
+  var snapshots = await collection.get();
+  for (var doc in snapshots.docs) {
+    if (doc.id != 'no_item') {
+      await doc.reference.delete();
+    } else {
+      await FirebaseFirestore.instance
+          .collection('orders')
+          .doc(uid)
+          .collection('foods')
+          .doc('no_item')
+          .update({'no_item': '0'}).catchError(
+              (error) => print("Failed to update total: $error"));
+    }
+  }
+  // update total, no_item
+  await FirebaseFirestore.instance
+      .collection('orders')
+      .doc(uid)
+      .update({'total': '0.00'}).catchError(
+          (error) => print("Failed to update total: $error"));
 }
 
 bool isPaypalPaymentValid(String total) {
