@@ -37,7 +37,7 @@ Future<List<Food>> queryFoodInCart(String uid) async {
         .get()
         .then((DocumentSnapshot<Map> documentSnapshot) {
       if (documentSnapshot.exists) {
-        final id = 1;
+        final id = int.parse(documentSnapshot.id);
         final description = documentSnapshot.data()!['description'];
         final List<String> images = [documentSnapshot.data()!['imageURL']];
         final price = documentSnapshot.data()!['price'];
@@ -72,7 +72,6 @@ class _BodyState extends State<Body> {
         future: queryFoodInCart(uid),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            print(snapshot.data);
             return ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) => Padding(
@@ -80,10 +79,15 @@ class _BodyState extends State<Body> {
                 child: Dismissible(
                   key: Key(snapshot.data![index].id.toString()),
                   direction: DismissDirection.endToStart,
-                  onDismissed: (direction) {
-                    setState(() {
-                      // TODO:Remove item from cart
-                    });
+                  onDismissed: (direction) async {
+                    CollectionReference orderedFoods = FirebaseFirestore
+                        .instance
+                        .collection('orders')
+                        .doc(uid)
+                        .collection('foods');
+
+                    await deleteItemFromCart(
+                        orderedFoods, index, uid, snapshot);
                   },
                   background: Container(
                     padding: EdgeInsets.symmetric(horizontal: 20),
@@ -114,5 +118,41 @@ class _BodyState extends State<Body> {
         },
       ),
     );
+  }
+
+  Future<void> deleteItemFromCart(CollectionReference<Object?> orderedFoods,
+      int index, String uid, AsyncSnapshot<List<Food>> snapshot) async {
+    // Minus from total quantity
+    await orderedFoods
+        .doc('no_item')
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      final String new_total_items =
+          (int.parse(documentSnapshot['no_item']) - quanities[index])
+              .toString();
+      orderedFoods.doc('no_item').update({
+        'no_item': new_total_items,
+      });
+    });
+    // Minus from total price
+    await FirebaseFirestore.instance.collection('orders').doc(uid).get().then(
+      (DocumentSnapshot<Map> documentSnapshot) {
+        final String new_total =
+            (double.parse(documentSnapshot.data()!['total']) -
+                    snapshot.data![index].price * quanities[index])
+                .toStringAsFixed(2);
+        FirebaseFirestore.instance
+            .collection('orders')
+            .doc(uid)
+            .update({'total': new_total});
+      },
+    );
+    // Delete item from Firebase
+    await orderedFoods
+        .doc(snapshot.data![index].id.toString())
+        .delete()
+        .then((value) => print("Food item deleted"))
+        .catchError(
+            (error) => print("Failed to delete food item from cart: $error"));
   }
 }

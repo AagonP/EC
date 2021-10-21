@@ -17,25 +17,25 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
       appBar: buildAppBar(context),
       body: Body(),
-      bottomNavigationBar: FutureBuilder<DocumentSnapshot>(
-        future: FirebaseFirestore.instance.collection('orders').doc(uid).get(),
-        builder:
-            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+      bottomNavigationBar:
+          StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        stream: FirebaseFirestore.instance
+            .collection('orders')
+            .doc(uid)
+            .snapshots(),
+        builder: (BuildContext context,
+            AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.hasError) {
-            return Text("Something went wrong");
+            return Text('Something went wrong');
           }
 
-          if (snapshot.hasData && !snapshot.data!.exists) {
-            return Text("Document does not exist");
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Text("Loading");
           }
 
-          if (snapshot.connectionState == ConnectionState.done) {
-            Map<String, dynamic> data =
-                snapshot.data!.data() as Map<String, dynamic>;
-            return CheckoutCard(total: data['total']);
-          }
-
-          return Text("loading");
+          Map<String, dynamic> data =
+              snapshot.data!.data() as Map<String, dynamic>;
+          return CheckoutCard(total: data['total']);
         },
       ),
     );
