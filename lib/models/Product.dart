@@ -101,13 +101,10 @@ List<Product> demoProducts = [
     description: description,
     rating: 4.1,
     isFavourite: true,
-    isPopular:false,
+    isPopular: false,
     distance: 1.9,
     address: "397a Le Dai Hanh, P.11, District 10, Ho Chi Minh city",
   ),
 ];
 
-const String description =
-    "Food Description";
-
-
+const String description = "Food Description";
