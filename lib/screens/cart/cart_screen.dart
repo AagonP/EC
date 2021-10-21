@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/models/Cart.dart';
 
 import 'components/body.dart';
 import 'components/check_out_card.dart';
+
+final uid = 'mock_user_id';
 
 class CartScreen extends StatelessWidget {
   static String routeName = "/cart";
@@ -11,7 +14,27 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
       appBar: buildAppBar(context),
       body: Body(),
-      bottomNavigationBar: CheckoutCard(),
+      bottomNavigationBar: FutureBuilder<DocumentSnapshot>(
+        future: FirebaseFirestore.instance.collection('orders').doc(uid).get(),
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text("Something went wrong");
+          }
+
+          if (snapshot.hasData && !snapshot.data!.exists) {
+            return Text("Document does not exist");
+          }
+
+          if (snapshot.connectionState == ConnectionState.done) {
+            Map<String, dynamic> data =
+                snapshot.data!.data() as Map<String, dynamic>;
+            return CheckoutCard(total: data['total']);
+          }
+
+          return Text("loading");
+        },
+      ),
     );
   }
 
@@ -22,11 +45,9 @@ class CartScreen extends StatelessWidget {
         children: [
           Text(
             "Your Cart",
-            style: TextStyle(color: Colors.black,),
-          ),
-          Text(
-            "${demoCarts.length} items",
-            style: Theme.of(context).textTheme.caption,
+            style: TextStyle(
+              color: Colors.black,
+            ),
           ),
         ],
       ),

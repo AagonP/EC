@@ -9,20 +9,22 @@ import '../../../size_config.dart';
 import 'cart_card.dart';
 
 final uid = 'mock_user_id';
-final quanity = 1;
+List<int> quanities = [];
 
 Future<List<Food>> queryFoodInCart(String uid) async {
   List<Food> foods = [];
   List<String> food_ids = [];
+  quanities = [];
   await FirebaseFirestore.instance
       .collection('orders')
       .doc(uid)
       .collection('foods')
       .get()
-      .then((QuerySnapshot querySnapshot) {
+      .then((QuerySnapshot<Map> querySnapshot) {
     querySnapshot.docs.forEach((doc) {
       if (doc.id != 'no_item') {
         food_ids.add(doc.id);
+        quanities.add(int.parse(doc.data()['quantity']));
       }
     });
   });
@@ -94,7 +96,8 @@ class _BodyState extends State<Body> {
                   ),
                   child: CartCard(
                     cart: Cart(
-                        product: snapshot.data![index], numOfItem: quanity),
+                        product: snapshot.data![index],
+                        numOfItem: quanities[index]),
                   ),
                 ),
               ),
