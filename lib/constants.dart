@@ -48,3 +48,5 @@ OutlineInputBorder outlineInputBorder() {
     borderSide: BorderSide(color: kTextColor),
   );
 }
+
+final String tokenizationKey = 'sandbox_6mkkpkh5_72kb98brqdvhc7vf';

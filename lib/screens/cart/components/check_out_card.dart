@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:shop_app/components/default_button.dart';
+import 'package:flutter_braintree/flutter_braintree.dart';
+import 'package:shop_app/helper/auth.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -80,7 +84,15 @@ class CheckoutCard extends StatelessWidget {
                   width: getProportionateScreenWidth(190),
                   child: DefaultButton(
                     text: "Check Out",
-                    press: () {},
+                    press: () async {
+                      final uid = Provider.of<AuthenticationService>(context,
+                              listen: false)
+                          .getUser()!
+                          .uid;
+                      if (isPaypalPaymentValid(total)) {
+                        await processPayment(total, uid);
+                      }
+                    },
                   ),
                 ),
               ],
@@ -90,4 +102,41 @@ class CheckoutCard extends StatelessWidget {
       ),
     );
   }
+}
+
+bool isPaypalPaymentValid(String total) {
+  if (double.parse(total) != 0) {
+    return true;
+  } else
+    return false;
+}
+
+Future<void> processPayment(String total, String uid) async {
+  var request = BraintreeDropInRequest(
+    tokenizationKey: tokenizationKey,
+    collectDeviceData: true,
+    paypalRequest: BraintreePayPalRequest(
+      amount: total,
+      displayName: 'Eatify',
+    ),
+    cardEnabled: true,
+  );
+  final result = await BraintreeDropIn.start(request);
+  // On sucessful nonce getting from the braintree
+  if (result != null) {
+    // Post receipt to Firebase
+    await sendNonceToFirebase(total, result, uid);
+  }
+}
+
+Future<void> sendNonceToFirebase(
+    String total, BraintreeDropInResult result, String uid) async {
+  await FirebaseFirestore.instance.collection('receipts').add({
+    'amount': total,
+    'device_data': result.deviceData,
+    'nonce': result.paymentMethodNonce.nonce,
+    'is_processed': false,
+    'store_id': '',
+    'uid': uid,
+  });
 }
