@@ -1,5 +1,5 @@
 class Food {
-  final int id;
+  final String id;
   final String title, description;
   final List<String> images;
   final double price;
@@ -15,7 +15,7 @@ class Food {
 
 List<Food> demoFoods = [
   Food(
-    id: 1,
+    id: '1',
     images: [
       "assets/images/4w5thy.jpg",
     ],
@@ -25,7 +25,7 @@ List<Food> demoFoods = [
         "This bread is 100% authenticated by Gordon Ramsay, you would die (not literally) by eating it, mlem mlem mlem mlem mlem mlem.",
   ),
   Food(
-    id: 2,
+    id: '2',
     images: [
       "assets/images/hoc-nau-pho-gia-truyen.jpg",
     ],
@@ -35,7 +35,7 @@ List<Food> demoFoods = [
         "Pho is one of the most famous Vietnamese food, it is flavorful and gives you a relaxing feeling when eating.",
   ),
   Food(
-    id: 3,
+    id: '3',
     images: [
       "assets/images/Fried_Chicken-1024x536.png",
     ],
@@ -44,7 +44,7 @@ List<Food> demoFoods = [
     description: "I'm out of idea. :D",
   ),
   Food(
-    id: 4,
+    id: '4',
     images: [
       "assets/images/bibimbap-a-popular-Korean-dish.jpg",
     ],
@@ -53,7 +53,7 @@ List<Food> demoFoods = [
     description: "I'm out of idea. :D",
   ),
   Food(
-    id: 5,
+    id: '5',
     images: [
       "assets/images/tra-sua-truyen-thong.jpg",
     ],

@@ -37,7 +37,7 @@ Future<List<Food>> queryFoodInCart(String uid) async {
         .get()
         .then((DocumentSnapshot<Map> documentSnapshot) {
       if (documentSnapshot.exists) {
-        final id = int.parse(documentSnapshot.id);
+        final id = documentSnapshot.id;
         final description = documentSnapshot.data()!['description'];
         final List<String> images = [documentSnapshot.data()!['imageURL']];
         final price = documentSnapshot.data()!['price'];

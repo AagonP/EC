@@ -9,6 +9,9 @@ import 'package:shop_app/helper/auth.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
+final mock_address =
+    "268 Lý Thường Kiệt, Phường 14, Quận 10, Thành phố Hồ Chí Minh";
+
 class CheckoutCard extends StatefulWidget {
   const CheckoutCard({
     Key? key,
@@ -22,15 +25,8 @@ class CheckoutCard extends StatefulWidget {
 
 class _CheckoutCardState extends State<CheckoutCard> {
   String dropdownValue = 'Cash';
-  final locationController = TextEditingController();
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is removed from the
-    // widget tree.
-    locationController.dispose();
-    super.dispose();
-  }
 
+  @override
   @override
   Widget build(BuildContext context) {
     String shipFee = "15.00";
@@ -124,7 +120,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                     },
                     child: Container(
                       child: Text(
-                        'Very long adrresss here problems ? I said it was very long long long',
+                        mock_address,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
