@@ -5,12 +5,13 @@ import 'package:shop_app/models/Food.dart';
 import '../../../size_config.dart';
 
 class QuantityConfig extends StatefulWidget {
-  const QuantityConfig({
+  QuantityConfig({
     Key? key,
     required this.food,
   }) : super(key: key);
 
   final Food food;
+  var quantity = 1;
 
   @override
   _QuantityConfigState createState() => _QuantityConfigState();
@@ -18,7 +19,6 @@ class QuantityConfig extends StatefulWidget {
 
 class _QuantityConfigState extends State<QuantityConfig> {
   int quantity = 1;
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -44,6 +44,7 @@ class _QuantityConfigState extends State<QuantityConfig> {
             press: () {
               setState(() {
                 quantity = quantity > 0 ? quantity - 1 : quantity;
+                widget.quantity = quantity;
               });
             },
           ),
@@ -54,6 +55,7 @@ class _QuantityConfigState extends State<QuantityConfig> {
             press: () {
               setState(() {
                 quantity += 1;
+                widget.quantity = quantity;
               });
             },
           ),

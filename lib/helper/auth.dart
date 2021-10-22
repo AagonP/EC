@@ -2,16 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthenticationService {
-  // 1
-  final FirebaseAuth _firebaseAuth;
-  final CollectionReference _collectionReference;
+  // Static variables for authentication
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final CollectionReference _usersReference =
+      FirebaseFirestore.instance.collection("users");
+  final CollectionReference _ordersReference =
+      FirebaseFirestore.instance.collection("orders");
 
-  AuthenticationService(this._firebaseAuth, this._collectionReference);
+  AuthenticationService();
 
-  // 2
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
-  // 3
+  // Sign in
   Future<String?> signIn(
       {required String email, required String password}) async {
     try {
@@ -23,7 +25,7 @@ class AuthenticationService {
     }
   }
 
-  // 4
+  // Sign up
   Future<String?> signUp(
       {required String email, required String password}) async {
     try {
@@ -35,7 +37,7 @@ class AuthenticationService {
     }
   }
 
-  // 5
+  // Complete profile
   Future<String?> completeProfile({
     required String firstName,
     required String lastName,
@@ -43,20 +45,29 @@ class AuthenticationService {
     required String address,
   }) async {
     try {
-      await _collectionReference.add({
-        "uid": _firebaseAuth.currentUser!.uid,
+      String uid = getUser()!.uid;
+      await _usersReference.doc(uid).set({
         "username": "$firstName $lastName",
         "phoneNumber": phoneNumber,
         "address": address,
         "favorites": [],
       });
+      await _ordersReference.doc(uid).set({
+        "expire_time": "",
+        "total": "0.00",
+      });
+      await _ordersReference
+          .doc(uid)
+          .collection("foods")
+          .doc("no_item")
+          .set({"no_item": "0"});
       return "Profile completed";
     } on StateError catch (e) {
       return e.message;
     }
   }
 
-  // 6
+  // Sign out
   Future<String?> signOut() async {
     try {
       await _firebaseAuth.signOut();
@@ -66,7 +77,7 @@ class AuthenticationService {
     }
   }
 
-  // 7
+  // Get user
   User? getUser() {
     try {
       return _firebaseAuth.currentUser;

@@ -1,13 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/helper/auth.dart';
 import 'package:shop_app/models/storeCollection.dart';
 import 'package:shop_app/routes.dart';
-import 'package:shop_app/screens/home/home_screen.dart';
-import 'package:shop_app/screens/profile/profile_screen.dart';
 import 'package:shop_app/screens/splash/splash_screen.dart';
 import 'package:shop_app/theme.dart';
 
@@ -23,10 +19,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<AuthenticationService>(
-          create: (_) => AuthenticationService(
-            FirebaseAuth.instance,
-            FirebaseFirestore.instance.collection("users"),
-          ),
+          create: (_) => AuthenticationService(),
         ),
         // 3
         StreamProvider(
