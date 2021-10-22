@@ -1,5 +1,5 @@
 class Store {
-  final int id;
+  final String id;
   final String title, address;
   final List<String> images;
   final double rating, distance;
@@ -16,7 +16,7 @@ class Store {
     required this.title,
     required this.distance,
     required this.address,
-    required this.isFavourite,
+    this.isFavourite = false,
   });
 }
 
@@ -24,7 +24,7 @@ class Store {
 
 List<Store> demoStores = [
   Store(
-    id: 1,
+    id: '1',
     images: [
       "assets/images/4w5thy.jpg",
     ],
@@ -36,7 +36,7 @@ List<Store> demoStores = [
     isFavourite: true,
   ),
   Store(
-    id: 2,
+    id: '2',
     images: [
       "assets/images/hoc-nau-pho-gia-truyen.jpg",
     ],
@@ -48,7 +48,7 @@ List<Store> demoStores = [
     isFavourite: true,
   ),
   Store(
-    id: 3,
+    id: '3',
     images: [
       "assets/images/Fried_Chicken-1024x536.png",
     ],
@@ -60,7 +60,7 @@ List<Store> demoStores = [
     isFavourite: true,
   ),
   Store(
-    id: 4,
+    id: '4',
     images: [
       "assets/images/bibimbap-a-popular-Korean-dish.jpg",
     ],
@@ -72,7 +72,7 @@ List<Store> demoStores = [
     isFavourite: true,
   ),
   Store(
-    id: 5,
+    id: '5',
     images: [
       "assets/images/tra-sua-truyen-thong.jpg",
     ],
@@ -84,7 +84,7 @@ List<Store> demoStores = [
     isFavourite: true,
   ),
   Store(
-    id: 6,
+    id: '6',
     images: [
       "assets/images/tra-sua-truyen-thong.jpg",
     ],
@@ -96,7 +96,7 @@ List<Store> demoStores = [
     isFavourite: true,
   ),
   Store(
-    id: 7,
+    id: '7',
     images: [
       "assets/images/tra-sua-truyen-thong.jpg",
     ],

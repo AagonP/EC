@@ -46,7 +46,7 @@ class StoreCard extends StatelessWidget {
                     tag: store.id.toString(),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
-                      child: Image.asset(
+                      child: Image.network(
                         store.images[0],
                         fit: BoxFit.cover,
                       ),
