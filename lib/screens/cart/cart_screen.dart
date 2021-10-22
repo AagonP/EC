@@ -35,7 +35,7 @@ class CartScreen extends StatelessWidget {
 
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
-          return CheckoutCard(total: data['total']);
+          return CheckoutCard(subtotal: data['total']);
         },
       ),
     );

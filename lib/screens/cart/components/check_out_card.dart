@@ -9,15 +9,24 @@ import 'package:shop_app/helper/auth.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
 
-class CheckoutCard extends StatelessWidget {
+class CheckoutCard extends StatefulWidget {
   const CheckoutCard({
     Key? key,
-    this.total,
+    this.subtotal,
   }) : super(key: key);
-  final total;
+  final subtotal;
 
   @override
+  State<CheckoutCard> createState() => _CheckoutCardState();
+}
+
+class _CheckoutCardState extends State<CheckoutCard> {
+  String dropdownValue = 'Cash';
+  @override
   Widget build(BuildContext context) {
+    String shipFee = "15.00";
+    String total =
+        (double.parse(shipFee) + double.parse(widget.subtotal)).toString();
     return Container(
       padding: EdgeInsets.symmetric(
         vertical: getProportionateScreenWidth(15),
@@ -41,7 +50,6 @@ class CheckoutCard extends StatelessWidget {
       child: SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -56,48 +64,105 @@ class CheckoutCard extends StatelessWidget {
                   child: SvgPicture.asset("assets/icons/receipt.svg"),
                 ),
                 Spacer(),
-                Text("Add voucher code"),
-                const SizedBox(width: 10),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 12,
-                  color: kTextColor,
-                )
+                DropdownButton<String>(
+                  value: dropdownValue,
+                  iconSize: 24,
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.black),
+                  underline: Container(
+                    height: 2,
+                    color: kPrimaryColor,
+                  ),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      dropdownValue = newValue!;
+                    });
+                  },
+                  items: <String>['Cash', 'Online Payment']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
               ],
             ),
             SizedBox(height: getProportionateScreenHeight(20)),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text.rich(
                   TextSpan(
-                    text: "Total:\n",
-                    children: [
-                      TextSpan(
-                        text: "\$ " + total,
-                        style: TextStyle(fontSize: 16, color: Colors.black),
-                      ),
-                    ],
+                    text: "Applicable fee:",
                   ),
                 ),
-                SizedBox(
-                  width: getProportionateScreenWidth(190),
-                  child: DefaultButton(
-                    text: "Check Out",
-                    press: () async {
-                      final uid = Provider.of<AuthenticationService>(context,
-                              listen: false)
-                          .getUser()!
-                          .uid;
-                      if (isPaypalPaymentValid(total)) {
-                        await processPayment(total, uid);
-                        await deleteOrder(uid);
-                        Navigator.of(context).pop();
-                      }
-                    },
+                Spacer(),
+                Text.rich(
+                  TextSpan(
+                    text: " " + shipFee + " \$",
+                    style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                 ),
               ],
+            ),
+            Row(
+              children: [
+                Text.rich(
+                  TextSpan(
+                    text: "Subtotal:",
+                  ),
+                ),
+                Spacer(),
+                Text.rich(
+                  TextSpan(
+                    text: " " + widget.subtotal + " \$",
+                    style: TextStyle(fontSize: 16, color: Colors.black),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Text.rich(
+                  TextSpan(
+                    text: "Total:",
+                  ),
+                ),
+                Spacer(),
+                Text.rich(
+                  TextSpan(
+                    text: " " + total + " \$",
+                    style: TextStyle(fontSize: 16, color: Colors.black),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: getProportionateScreenHeight(20)),
+            SizedBox(
+              width: getProportionateScreenWidth(190),
+              child: DefaultButton(
+                text: "Check Out",
+                press: () async {
+                  final uid =
+                      Provider.of<AuthenticationService>(context, listen: false)
+                          .getUser()!
+                          .uid;
+                  // Check if there is item in the cart
+                  if (double.parse(widget.subtotal) != 0) {
+                    if (dropdownValue == 'Online Payment') {
+                      // If paypal is chosen
+                      if (await processPayment(total, uid)) {
+                        await deleteOrder(uid);
+                        Navigator.of(context).pop();
+                      }
+                    } else {
+                      // If cash is chosen
+                      await deleteOrder(uid);
+                      Navigator.of(context).pop();
+                    }
+                  }
+                },
+              ),
             ),
           ],
         ),
@@ -134,14 +199,7 @@ Future<void> deleteOrder(String uid) async {
           (error) => print("Failed to update total: $error"));
 }
 
-bool isPaypalPaymentValid(String total) {
-  if (double.parse(total) != 0) {
-    return true;
-  } else
-    return false;
-}
-
-Future<void> processPayment(String total, String uid) async {
+Future<bool> processPayment(String total, String uid) async {
   var request = BraintreeDropInRequest(
     tokenizationKey: tokenizationKey,
     collectDeviceData: true,
@@ -149,13 +207,16 @@ Future<void> processPayment(String total, String uid) async {
       amount: total,
       displayName: 'Eatify',
     ),
-    cardEnabled: true,
+    cardEnabled: false,
   );
   final result = await BraintreeDropIn.start(request);
   // On sucessful nonce getting from the braintree
   if (result != null) {
     // Post receipt to Firebase
     await sendNonceToFirebase(total, result, uid);
+    return true;
+  } else {
+    return false;
   }
 }
 
