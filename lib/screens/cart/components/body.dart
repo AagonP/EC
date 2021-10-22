@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:shop_app/helper/auth.dart';
 import 'package:shop_app/models/Cart.dart';
 import 'package:shop_app/models/Food.dart';
-import 'package:shop_app/models/Product.dart';
 
 import '../../../size_config.dart';
 import 'cart_card.dart';

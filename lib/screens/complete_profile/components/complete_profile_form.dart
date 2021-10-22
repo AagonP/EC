@@ -21,6 +21,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   String? lastName;
   String? phoneNumber;
   String? address;
+  bool _isLoading = false;
 
   void addError({String? error}) {
     if (!errors.contains(error))
@@ -38,48 +39,61 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          buildFirstNameFormField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          buildLastNameFormField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          buildPhoneNumberFormField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          buildAddressFormField(),
-          FormError(errors: errors),
-          SizedBox(height: getProportionateScreenHeight(40)),
-          DefaultButton(
-            text: "continue",
-            press: () async {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
+    return _isLoading
+        ? Center(
+            child: CircularProgressIndicator(),
+          )
+        : Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                buildFirstNameFormField(),
+                SizedBox(height: getProportionateScreenHeight(30)),
+                buildLastNameFormField(),
+                SizedBox(height: getProportionateScreenHeight(30)),
+                buildPhoneNumberFormField(),
+                SizedBox(height: getProportionateScreenHeight(30)),
+                buildAddressFormField(),
+                FormError(errors: errors),
+                SizedBox(height: getProportionateScreenHeight(40)),
+                DefaultButton(
+                  text: "continue",
+                  press: () async {
+                    if (_formKey.currentState!.validate()) {
+                      setState(() {
+                        _isLoading = true;
+                      });
+                      _formKey.currentState!.save();
 
-                // If all are valid then go to HomePage screen
-                final result =
-                    await context.read<AuthenticationService>().completeProfile(
-                          firstName: firstName!.trim(),
-                          lastName: lastName!.trim(),
-                          phoneNumber: phoneNumber!.trim(),
-                          address: address!.trim(),
-                        );
+                      // If all are valid then go to HomePage screen
+                      final result = await context
+                          .read<AuthenticationService>()
+                          .completeProfile(
+                            firstName: firstName!.trim(),
+                            lastName: lastName!.trim(),
+                            phoneNumber: phoneNumber!.trim(),
+                            address: address!.trim(),
+                          );
 
-                if (result == "Profile completed") {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text('Your profile is completed')));
-                  Navigator.pushNamed(context, HomeScreen.routeName);
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('There is something wrong, please retry')));
-                }
-              }
-            },
-          ),
-        ],
-      ),
-    );
+                      if (result == "Profile completed") {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('Your profile is completed')));
+                        Navigator.pushReplacementNamed(
+                            context, HomeScreen.routeName);
+                      } else {
+                        setState(() {
+                          _isLoading = false;
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                'There is something wrong, please retry')));
+                      }
+                    }
+                  },
+                ),
+              ],
+            ),
+          );
   }
 
   TextFormField buildAddressFormField() {

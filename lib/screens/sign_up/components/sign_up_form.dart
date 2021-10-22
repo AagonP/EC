@@ -21,6 +21,7 @@ class _SignUpFormState extends State<SignUpForm> {
   String? conform_password;
   bool remember = false;
   final List<String?> errors = [];
+  bool _isLoading = false;
 
   void addError({String? error}) {
     if (!errors.contains(error))
@@ -38,47 +39,58 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          buildEmailFormField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          buildPasswordFormField(),
-          SizedBox(height: getProportionateScreenHeight(30)),
-          buildConformPassFormField(),
-          FormError(errors: errors),
-          SizedBox(height: getProportionateScreenHeight(40)),
-          DefaultButton(
-            text: "Continue",
-            press: () async {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-                // if all are valid then go to success screen
-                final result =
-                    await context.read<AuthenticationService>().signUp(
-                          email: email!.trim(),
-                          password: password!.trim(),
-                        );
+    return _isLoading
+        ? Center(
+            child: CircularProgressIndicator(),
+          )
+        : Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                buildEmailFormField(),
+                SizedBox(height: getProportionateScreenHeight(30)),
+                buildPasswordFormField(),
+                SizedBox(height: getProportionateScreenHeight(30)),
+                buildConformPassFormField(),
+                FormError(errors: errors),
+                SizedBox(height: getProportionateScreenHeight(40)),
+                DefaultButton(
+                  text: "Continue",
+                  press: () async {
+                    if (_formKey.currentState!.validate()) {
+                      setState(() {
+                        _isLoading = true;
+                      });
+                      _formKey.currentState!.save();
+                      // if all are valid then go to complete profile screen
+                      final result =
+                          await context.read<AuthenticationService>().signUp(
+                                email: email!.trim(),
+                                password: password!.trim(),
+                              );
 
-                if (result == "Signed up") {
-                  await context.read<AuthenticationService>().signIn(
-                    email: email!.trim(),
-                    password: password!.trim(),
-                  );
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text('Sign Up Success')));
-                  Navigator.pushNamed(context, CompleteProfileScreen.routeName);
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Invalid email or password')));
-                }
-              }
-            },
-          ),
-        ],
-      ),
-    );
+                      if (result == "Signed up") {
+                        await context.read<AuthenticationService>().signIn(
+                              email: email!.trim(),
+                              password: password!.trim(),
+                            );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Sign Up Success')));
+                        Navigator.pushReplacementNamed(
+                            context, CompleteProfileScreen.routeName);
+                      } else {
+                        setState(() {
+                          _isLoading = false;
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('Invalid email or password')));
+                      }
+                    }
+                  },
+                ),
+              ],
+            ),
+          );
   }
 
   TextFormField buildConformPassFormField() {
