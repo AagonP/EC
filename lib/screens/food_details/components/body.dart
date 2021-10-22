@@ -29,6 +29,8 @@ class Body extends StatelessWidget {
           fit: BoxFit.fill,
         ),
         TopRoundedContainer(
+          isRounded: false,
+          topMargin: false,
           color: Colors.white,
           child: Column(
             children: [

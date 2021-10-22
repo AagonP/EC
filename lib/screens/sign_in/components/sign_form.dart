@@ -64,7 +64,6 @@ class _SignFormState extends State<SignForm> {
                         );
 
                 if (res == 'Signed in') {
-                  print('success');
                   ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Sign In Success')));
                   Navigator.pushNamed(context, LoginSuccessScreen.routeName);

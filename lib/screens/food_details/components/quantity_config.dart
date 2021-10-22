@@ -40,6 +40,7 @@ class _QuantityConfigState extends State<QuantityConfig> {
           Spacer(),
           RoundedIconBtn(
             icon: Icons.remove,
+            showShadow: true,
             press: () {
               setState(() {
                 quantity = quantity > 0 ? quantity - 1 : quantity;
