@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/models/storeCollection.dart';
 import 'package:shop_app/screens/category/category_screen.dart';
+import 'package:shop_app/screens/search/search_screen.dart';
 
 import '../../../size_config.dart';
 import 'section_title.dart';
+import 'package:provider/provider.dart';
 
 class SpecialOffers extends StatelessWidget {
   const SpecialOffers({
@@ -11,6 +14,8 @@ class SpecialOffers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    StoreCollection storeState = Provider.of<StoreCollection>(context);
+
     return Column(
       children: [
         Padding(
@@ -32,20 +37,32 @@ class SpecialOffers extends StatelessWidget {
               SpecialOfferCard(
                 image: "assets/images/Fried_Chicken-1024x536.png",
                 category: "Fried Chicken",
-                numOfBrands: 50,
-                press: () {},
+                numOfBrands: 5,
+                press: () async {
+                  storeState.emptyQueryResult();
+                  await storeState.queryStore('fried chicken');
+                  Navigator.pushNamed(context, SearchScreen.routeName);
+                },
               ),
               SpecialOfferCard(
                 image: "assets/images/tra-sua-truyen-thong.jpg",
                 category: "Drink",
-                numOfBrands: 50,
-                press: () {},
+                numOfBrands: 5,
+                press: () async {
+                  storeState.emptyQueryResult();
+                  await storeState.queryStore('milk tea');
+                  Navigator.pushNamed(context, SearchScreen.routeName);
+                },
               ),
               SpecialOfferCard(
                 image: "assets/images/bibimbap-a-popular-Korean-dish.jpg",
                 category: "Korean Food",
-                numOfBrands: 50,
-                press: () {},
+                numOfBrands: 5,
+                press: () async{
+                  storeState.emptyQueryResult();
+                  await storeState.queryStore('korean food');
+                  Navigator.pushNamed(context, SearchScreen.routeName);
+                },
               ),
               SizedBox(width: getProportionateScreenWidth(20)),
             ],

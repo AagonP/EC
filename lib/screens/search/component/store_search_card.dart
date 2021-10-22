@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/models/Food.dart';
 import 'package:shop_app/models/Store.dart';
 import 'package:shop_app/screens/food_details/food_details_screen.dart';
+import 'package:shop_app/screens/store/store_screen.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -18,6 +20,11 @@ class StoreSearchCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         // TODO: Navigate to store screen
+        Navigator.pushNamed(
+          context,
+          StoreScreen.routeName,
+          arguments: StoreArguments(store: store, foods: demoFoods),
+        );
       },
       child: Column(
         children: [
@@ -36,7 +43,7 @@ class StoreSearchCard extends StatelessWidget {
                       tag: store.id.toString(),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
-                        child: Image.asset(
+                        child: Image.network(
                           store.images[0],
                           fit: BoxFit.cover,
                         ),

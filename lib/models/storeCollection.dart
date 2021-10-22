@@ -8,6 +8,7 @@ class StoreCollection with ChangeNotifier {
     initPopularStore();
   }
   List<Store> popularStore = [];
+  List<Store> store = [];
 
   Future<void> initPopularStore() async {
     await FirebaseFirestore.instance
@@ -16,7 +17,6 @@ class StoreCollection with ChangeNotifier {
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
-        print(doc["title"]);
         Store tem = Store(
             id: doc.id,
             images: [doc['imageURL']],
@@ -31,8 +31,37 @@ class StoreCollection with ChangeNotifier {
     });
   }
 
+  Future<void> queryStore(String query) async {
+    await FirebaseFirestore.instance
+        .collection('stores')
+        .where('category', arrayContains: query)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        print(doc["title"]);
+        Store tem = Store(
+            id: doc.id,
+            images: [doc['imageURL']],
+            title: doc['title'],
+            distance: doc['distance'].toDouble(),
+            address: doc['address'],
+            rating: doc['rating'].toDouble(),
+            isPopular: doc['isPopular']
+        );
+        store.add(tem);
+      });
+    });
+    notifyListeners();
+  }
+
+  void emptyQueryResult(){
+    store.clear();
+    notifyListeners();
+  }
 
 
   List<Store> get getPopularStore => popularStore;
+
+  List<Store> get getQueryStore => store;
 
 }
