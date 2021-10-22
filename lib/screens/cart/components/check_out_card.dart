@@ -22,6 +22,15 @@ class CheckoutCard extends StatefulWidget {
 
 class _CheckoutCardState extends State<CheckoutCard> {
   String dropdownValue = 'Cash';
+  final locationController = TextEditingController();
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    locationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     String shipFee = "15.00";
@@ -86,6 +95,47 @@ class _CheckoutCardState extends State<CheckoutCard> {
                     );
                   }).toList(),
                 ),
+              ],
+            ),
+            SizedBox(height: getProportionateScreenHeight(20)),
+            Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(10),
+                  height: getProportionateScreenWidth(40),
+                  width: getProportionateScreenWidth(40),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFF5F6F9),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: SvgPicture.asset(
+                    "assets/icons/location.svg",
+                    color: kPrimaryColor,
+                  ),
+                ),
+                Spacer(),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  height: getProportionateScreenWidth(40),
+                  width: getProportionateScreenWidth(250),
+                  child: GestureDetector(
+                    onTap: () {
+                      // TODO: Change addrress
+                    },
+                    child: Container(
+                      child: Text(
+                        'Very long adrresss here problems ? I said it was very long long long',
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 5),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 12,
+                  color: kTextColor,
+                )
               ],
             ),
             SizedBox(height: getProportionateScreenHeight(20)),
@@ -200,6 +250,7 @@ Future<void> deleteOrder(String uid) async {
 }
 
 Future<bool> processPayment(String total, String uid) async {
+  // Return true if the transaction is completed
   var request = BraintreeDropInRequest(
     tokenizationKey: tokenizationKey,
     collectDeviceData: true,
