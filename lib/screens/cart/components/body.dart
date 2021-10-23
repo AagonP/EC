@@ -123,11 +123,12 @@ class _BodyState extends State<Body> {
   Future<void> deleteItemFromCart(CollectionReference<Object?> orderedFoods,
       int index, String uid, AsyncSnapshot<List<Food>> snapshot) async {
     // Minus from total quantity
+    late String new_total_items;
     await orderedFoods
         .doc('no_item')
         .get()
         .then((DocumentSnapshot documentSnapshot) {
-      final String new_total_items =
+      new_total_items =
           (int.parse(documentSnapshot['no_item']) - quanities[index])
               .toString();
       orderedFoods.doc('no_item').update({
@@ -154,5 +155,17 @@ class _BodyState extends State<Body> {
         .then((value) => print("Food item deleted"))
         .catchError(
             (error) => print("Failed to delete food item from cart: $error"));
+
+    // If the last item is removed from database, store_id is set to empty
+    if (new_total_items == "0") {
+      await FirebaseFirestore.instance.collection('orders').doc(uid).get().then(
+        (DocumentSnapshot<Map> documentSnapshot) {
+          FirebaseFirestore.instance
+              .collection('orders')
+              .doc(uid)
+              .update({'store_id': ""});
+        },
+      );
+    }
   }
 }

@@ -13,11 +13,10 @@ final mock_address =
     "268 Lý Thường Kiệt, Phường 14, Quận 10, Thành phố Hồ Chí Minh";
 
 class CheckoutCard extends StatefulWidget {
-  const CheckoutCard({
-    Key? key,
-    this.subtotal,
-  }) : super(key: key);
+  const CheckoutCard({Key? key, required this.subtotal, required this.store_id})
+      : super(key: key);
   final subtotal;
+  final store_id;
 
   @override
   State<CheckoutCard> createState() => _CheckoutCardState();
@@ -145,7 +144,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                 Spacer(),
                 Text.rich(
                   TextSpan(
-                    text: " " + shipFee + " \$",
+                    text: " " + shipFee + " \VND",
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                 ),
@@ -161,7 +160,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                 Spacer(),
                 Text.rich(
                   TextSpan(
-                    text: " " + widget.subtotal + " \$",
+                    text: " " + widget.subtotal + " \VND",
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                 ),
@@ -177,7 +176,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                 Spacer(),
                 Text.rich(
                   TextSpan(
-                    text: " " + total + " \$",
+                    text: " " + total + " \VND",
                     style: TextStyle(fontSize: 16, color: Colors.black),
                   ),
                 ),
@@ -197,7 +196,7 @@ class _CheckoutCardState extends State<CheckoutCard> {
                   if (double.parse(widget.subtotal) != 0) {
                     if (dropdownValue == 'Online Payment') {
                       // If paypal is chosen
-                      if (await processPayment(total, uid)) {
+                      if (await processPayment(total, uid, widget.store_id)) {
                         await deleteOrder(uid);
                         Navigator.of(context).pop();
                       }
@@ -224,6 +223,7 @@ Future<void> deleteOrder(String uid) async {
       .doc(uid)
       .collection('foods');
   var snapshots = await collection.get();
+  // Delete item id from foods collection and update no_item = 0
   for (var doc in snapshots.docs) {
     if (doc.id != 'no_item') {
       await doc.reference.delete();
@@ -237,15 +237,14 @@ Future<void> deleteOrder(String uid) async {
               (error) => print("Failed to update total: $error"));
     }
   }
-  // update total, no_item
-  await FirebaseFirestore.instance
-      .collection('orders')
-      .doc(uid)
-      .update({'total': '0.00'}).catchError(
-          (error) => print("Failed to update total: $error"));
+  // update total, store id
+  await FirebaseFirestore.instance.collection('orders').doc(uid).update({
+    'total': '0.00',
+    'store_id': '',
+  }).catchError((error) => print("Failed to update total: $error"));
 }
 
-Future<bool> processPayment(String total, String uid) async {
+Future<bool> processPayment(String total, String uid, String store_id) async {
   // Return true if the transaction is completed
   var request = BraintreeDropInRequest(
     tokenizationKey: tokenizationKey,
@@ -260,21 +259,21 @@ Future<bool> processPayment(String total, String uid) async {
   // On sucessful nonce getting from the braintree
   if (result != null) {
     // Post receipt to Firebase
-    await sendNonceToFirebase(total, result, uid);
+    await sendNonceToFirebase(total, result, uid, store_id);
     return true;
   } else {
     return false;
   }
 }
 
-Future<void> sendNonceToFirebase(
-    String total, BraintreeDropInResult result, String uid) async {
+Future<void> sendNonceToFirebase(String total, BraintreeDropInResult result,
+    String uid, String store_id) async {
   await FirebaseFirestore.instance.collection('receipts').add({
     'amount': total,
     'device_data': result.deviceData,
     'nonce': result.paymentMethodNonce.nonce,
     'is_processed': false,
-    'store_id': '',
+    'store_id': store_id,
     'uid': uid,
   });
 }

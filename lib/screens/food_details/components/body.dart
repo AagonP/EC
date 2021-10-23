@@ -4,6 +4,7 @@ import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/models/Food.dart';
 import 'package:shop_app/size_config.dart';
 import '../../../helper/auth.dart';
+import 'package:shop_app/screens/cart/components/check_out_card.dart';
 
 import 'quantity_config.dart';
 import 'food_description.dart';
@@ -13,8 +14,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Body extends StatelessWidget {
   final Food food;
+  final String store_id;
 
-  const Body({Key? key, required this.food}) : super(key: key);
+  const Body({Key? key, required this.food, required this.store_id})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +63,17 @@ class Body extends StatelessWidget {
                             if (!await isOrderCreated(uid)) {
                               await createOrder(uid);
                             }
-                            addItemToCart(quantityConfig.quantity,
-                                (food.id).toString(), food.price, uid);
+                            if (await isNewOrder(uid, store_id)) {
+                              addItemToCart(
+                                  quantityConfig.quantity,
+                                  (food.id).toString(),
+                                  food.price,
+                                  uid,
+                                  store_id);
+                            } else {
+                              await showNewCartConfirm(
+                                  context, quantityConfig, food, uid, store_id);
+                            }
                           },
                         ),
                       ),
@@ -76,6 +88,25 @@ class Body extends StatelessWidget {
     );
   }
 
+  Future<bool> isNewOrder(String uid, String store_id) async {
+    bool isNewOrder = false;
+    await FirebaseFirestore.instance.collection('orders').doc(uid).get().then(
+      (DocumentSnapshot<Map<String, dynamic>> documentSnapshot) {
+        if (documentSnapshot.exists) {
+          // Check if store_id is already assigned.
+
+          if (documentSnapshot.data()!['store_id'] != "" &&
+              documentSnapshot.data()!['store_id'] != store_id) {
+            isNewOrder = false;
+          } else {
+            isNewOrder = true;
+          }
+        }
+      },
+    );
+    return isNewOrder;
+  }
+
   Future<void> createOrder(String uid) async {
     final order = FirebaseFirestore.instance.collection('orders');
     // Create new order for the user
@@ -83,6 +114,7 @@ class Body extends StatelessWidget {
       {
         'total': '0.00',
         'expire_time': '',
+        'store_id': '',
       },
     ).catchError((error) => print("Failed to create order: $error"));
     await order.doc(uid).collection('foods').doc('no_item').set(
@@ -108,9 +140,18 @@ Future<bool> isOrderCreated(String uid) async {
   return isCreated;
 }
 
-Future<void> addItemToCart(
-    int quantity, String foodId, double foodPrice, String uid) async {
+Future<void> addItemToCart(int quantity, String foodId, double foodPrice,
+    String uid, String store_id) async {
   // Food selected will be post to orders collection in Firestore
+  // Add store id
+  await FirebaseFirestore.instance.collection('orders').doc(uid).get().then(
+    (DocumentSnapshot<Map> documentSnapshot) {
+      FirebaseFirestore.instance
+          .collection('orders')
+          .doc(uid)
+          .update({'store_id': store_id});
+    },
+  );
   // If the food item is not in the cart
   await FirebaseFirestore.instance.collection('orders').doc(uid).get().then(
     (DocumentSnapshot<Map> documentSnapshot) {
@@ -158,4 +199,52 @@ Future<void> addItemToCart(
       'no_item': new_total_items,
     });
   });
+}
+
+Future<void> showNewCartConfirm(
+    context, quantityConfig, food, uid, store_id) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // User must tap button
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text(
+          'Warning new order!',
+        ),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: const <Widget>[
+              Text.rich(
+                TextSpan(
+                  text:
+                      'Your order is currently on a different store. Would you like to delete the current cart and create a new one?',
+                  style: TextStyle(fontSize: 16, color: Colors.black),
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Yes'),
+            onPressed: () async {
+              //Delete the current cart
+              await deleteOrder(uid);
+              // Add new one
+              await addItemToCart(quantityConfig.quantity, (food.id).toString(),
+                  food.price, uid, store_id);
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: const Text('No'),
+            onPressed: () {
+              // Nothing happens
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

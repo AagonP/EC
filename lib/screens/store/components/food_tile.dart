@@ -6,12 +6,11 @@ import 'package:shop_app/screens/food_details/food_details_screen.dart';
 import 'package:shop_app/size_config.dart';
 
 class FoodTile extends StatelessWidget {
-  const FoodTile({
-    Key? key,
-    required this.food,
-  }) : super(key: key);
+  const FoodTile({Key? key, required this.food, required this.store_id})
+      : super(key: key);
 
   final Food food;
+  final String store_id;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +21,7 @@ class FoodTile extends StatelessWidget {
           FoodDetailsScreen.routeName,
           arguments: FoodDetailsArguments(
             food: food,
+            store_id: store_id,
           ),
         );
       },

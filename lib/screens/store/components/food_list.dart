@@ -6,9 +6,11 @@ class FoodList extends StatelessWidget {
   const FoodList({
     Key? key,
     required this.foods,
+    required this.store_id,
   }) : super(key: key);
 
   final List<Food> foods;
+  final store_id;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,7 @@ class FoodList extends StatelessWidget {
           foods.length,
           (index) => FoodTile(
             food: foods[index],
+            store_id: store_id,
           ),
         ),
       ],

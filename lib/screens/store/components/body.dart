@@ -28,6 +28,7 @@ class Body extends StatelessWidget {
           color: Colors.white,
           child: FoodList(
             foods: foods,
+            store_id: store.id,
           ),
         ),
       ],

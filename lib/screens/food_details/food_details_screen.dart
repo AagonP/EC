@@ -19,6 +19,7 @@ class FoodDetailsScreen extends StatelessWidget {
       ),
       body: Body(
         food: agrs.food,
+        store_id: agrs.store_id,
       ),
     );
   }
@@ -26,6 +27,7 @@ class FoodDetailsScreen extends StatelessWidget {
 
 class FoodDetailsArguments {
   final Food food;
+  final String store_id;
 
-  FoodDetailsArguments({required this.food});
+  FoodDetailsArguments({required this.food, required this.store_id});
 }

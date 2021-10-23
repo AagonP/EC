@@ -55,6 +55,7 @@ class AuthenticationService {
       await _ordersReference.doc(uid).set({
         "expire_time": "",
         "total": "0.00",
+        "store_id": "",
       });
       await _ordersReference
           .doc(uid)
