@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/components/default_button.dart';
+import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Food.dart';
 import 'package:shop_app/size_config.dart';
 import '../../../helper/auth.dart';
@@ -218,7 +219,7 @@ Future<void> showNewCartConfirm(
                 TextSpan(
                   text:
                       'Your order is currently on a different store. Would you like to delete the current cart and create a new one?',
-                  style: TextStyle(fontSize: 16, color: Colors.black),
+                  style: TextStyle(fontSize: 16, color: kSecondaryColor),
                 ),
               ),
             ],
@@ -226,20 +227,26 @@ Future<void> showNewCartConfirm(
         ),
         actions: <Widget>[
           TextButton(
-            child: const Text('Yes'),
+            child: const Text(
+              'No',
+              style: TextStyle(color: kPrimaryColor),
+            ),
+            onPressed: () {
+              // Nothing happens
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: const Text(
+              'Yes',
+              style: TextStyle(color: kPrimaryColor),
+            ),
             onPressed: () async {
               //Delete the current cart
               await deleteOrder(uid);
               // Add new one
               await addItemToCart(quantityConfig.quantity, (food.id).toString(),
                   food.price, uid, store_id);
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            child: const Text('No'),
-            onPressed: () {
-              // Nothing happens
               Navigator.of(context).pop();
             },
           ),
