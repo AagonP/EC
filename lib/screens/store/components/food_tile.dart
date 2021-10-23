@@ -50,6 +50,7 @@ class FoodTile extends StatelessWidget {
                   child: Image.network(
                     food.images[0],
                     height: getProportionateScreenHeight(69),
+                    width: getProportionateScreenWidth(69),
                     fit: BoxFit.fill,
                   ),
                 ),
