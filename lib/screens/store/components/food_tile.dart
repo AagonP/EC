@@ -47,7 +47,7 @@ class FoodTile extends StatelessWidget {
                 Spacer(),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15),
-                  child: Image.asset(
+                  child: Image.network(
                     food.images[0],
                     height: getProportionateScreenHeight(69),
                     fit: BoxFit.fill,

@@ -22,7 +22,7 @@ class Body extends StatelessWidget {
     var quantityConfig = QuantityConfig(food: food);
     return ListView(
       children: [
-        Image.asset(
+        Image.network(
           food.images[0],
           height: getProportionateScreenHeight(290),
           width: getProportionateScreenWidth(401),

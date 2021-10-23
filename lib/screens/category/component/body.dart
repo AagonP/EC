@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/models/storeCollection.dart';
+import 'package:shop_app/helper/store_collection.dart';
 import 'package:shop_app/screens/search/search_screen.dart';
 import 'package:shop_app/size_config.dart';
 import 'package:provider/provider.dart';

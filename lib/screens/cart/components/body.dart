@@ -42,11 +42,12 @@ Future<List<Food>> queryFoodInCart(String uid) async {
         final price = documentSnapshot.data()!['price'];
         final title = documentSnapshot.data()!['title'];
         foods.add(Food(
-            id: id,
-            description: description,
-            images: images,
-            price: double.parse(price.toString()),
-            title: title));
+          id: id,
+          description: description,
+          images: images,
+          price: double.parse(price.toString()),
+          title: title,
+        ));
       }
     });
   });

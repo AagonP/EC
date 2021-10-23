@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rubber/rubber.dart';
 import 'package:shop_app/models/Product.dart';
-import 'package:shop_app/models/storeCollection.dart';
+import 'package:shop_app/helper/store_collection.dart';
 import 'package:shop_app/screens/search/component/store_search_card.dart';
 import 'package:shop_app/screens/search/component/upperlayer.dart';
 import 'package:shop_app/size_config.dart';
@@ -95,11 +95,11 @@ class _SearchScreenState extends State<SearchScreen>
             child: Container(
               // color: Colors.orange[50],
               child: this.isLoading ? CircularProgressIndicator(): ListView.builder(
-                itemCount: storeState.store.length,
+                itemCount: storeState.stores.length,
                 itemBuilder: (context, index) => Padding(
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   child: StoreSearchCard(
-                    store: storeState.store[index],
+                    store: storeState.stores[index],
                   ),
                 ),
               ),

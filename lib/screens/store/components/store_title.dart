@@ -18,7 +18,7 @@ class StoreTitle extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        Image.asset(
+        Image.network(
           store.images[0],
           height: getProportionateScreenHeight(270),
           width: getProportionateScreenWidth(401),

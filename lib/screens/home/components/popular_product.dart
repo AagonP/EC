@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/components/product_card.dart';
-import 'package:shop_app/models/storeCollection.dart';
-import 'package:shop_app/models/Product.dart';
+import 'package:shop_app/helper/store_collection.dart';
 import 'package:shop_app/models/Store.dart';
 import 'package:shop_app/screens/home/components/store_card.dart';
-import 'package:shop_app/screens/search/component/store_search_card.dart';
 
 import '../../../size_config.dart';
 import 'section_title.dart';
@@ -14,7 +11,7 @@ class PopularProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    List<Store> popularStore = context.read<StoreCollection>().getPopularStore;
+    List<Store> popularStore = context.read<StoreCollection>().getPopularStores;
     print(popularStore.length);
 
     return Column(

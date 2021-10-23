@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/models/Store.dart';
-import 'package:shop_app/screens/store/store_screen.dart';
 import 'package:shop_app/models/Food.dart';
+import 'package:shop_app/helper/food_collection.dart';
+import 'package:shop_app/screens/store/store_screen.dart';
 
 import 'package:shop_app/size_config.dart';
 
@@ -25,11 +26,13 @@ class StoreCard extends StatelessWidget {
       child: SizedBox(
         width: getProportionateScreenWidth(width),
         child: GestureDetector(
-          onTap: () {
+          onTap: () async {
+            List<Food> foods = await FoodCollection().queryFoods(store.id);
+
             Navigator.pushNamed(
               context,
               StoreScreen.routeName,
-              arguments: StoreArguments(store: store, foods: demoFoods),
+              arguments: StoreArguments(store: store, foods: foods),
             );
           },
           child: Column(

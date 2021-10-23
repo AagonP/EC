@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/models/Food.dart';
 import 'package:shop_app/models/Store.dart';
-import 'package:shop_app/screens/food_details/food_details_screen.dart';
+import 'package:shop_app/models/Food.dart';
+import 'package:shop_app/helper/food_collection.dart';
 import 'package:shop_app/screens/store/store_screen.dart';
 
 import '../../../constants.dart';
-import '../../../size_config.dart';
 
 class StoreSearchCard extends StatelessWidget {
   const StoreSearchCard({
@@ -18,12 +17,14 @@ class StoreSearchCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        List<Food> foods = await FoodCollection().queryFoods(store.id);
+
         // TODO: Navigate to store screen
         Navigator.pushNamed(
           context,
           StoreScreen.routeName,
-          arguments: StoreArguments(store: store, foods: demoFoods),
+          arguments: StoreArguments(store: store, foods: foods),
         );
       },
       child: Column(

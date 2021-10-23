@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/helper/auth.dart';
-import 'package:shop_app/models/storeCollection.dart';
+import 'package:shop_app/helper/store_collection.dart';
 import 'package:shop_app/routes.dart';
 import 'package:shop_app/screens/splash/splash_screen.dart';
 import 'package:shop_app/theme.dart';
