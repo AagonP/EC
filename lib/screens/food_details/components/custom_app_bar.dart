@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/constants.dart';
+import 'package:shop_app/screens/home/home_screen.dart';
 
 import '../../../size_config.dart';
 
@@ -34,6 +35,17 @@ class CustomAppBar extends StatelessWidget {
                   "assets/icons/Back ICon.svg",
                   height: 15,
                 ),
+              ),
+            ),
+            Spacer(),
+            TextButton(
+              onPressed: () {
+                Navigator.popUntil(context, ModalRoute.withName(HomeScreen.routeName));
+              },
+              child: Text(
+                "Back To Home",
+                style: TextStyle(
+                    fontWeight: FontWeight.w600, color: kPrimaryColor),
               ),
             ),
           ],
