@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/models/Food.dart';
-import 'package:shop_app/screens/cart/components/body.dart';
 import 'package:shop_app/size_config.dart';
 import '../../../helper/auth.dart';
 
@@ -24,9 +23,8 @@ class Body extends StatelessWidget {
       children: [
         Image.network(
           food.images[0],
-          height: getProportionateScreenHeight(290),
           width: getProportionateScreenWidth(401),
-          fit: BoxFit.fill,
+          fit: BoxFit.fitWidth,
         ),
         TopRoundedContainer(
           isRounded: false,

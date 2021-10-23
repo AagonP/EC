@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shop_app/models/Food.dart';
 import 'food_tile.dart';
 
-import '../../../size_config.dart';
-
 class FoodList extends StatelessWidget {
   const FoodList({
     Key? key,

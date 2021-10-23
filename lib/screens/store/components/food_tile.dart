@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/models/Food.dart';
 import 'package:shop_app/screens/food_details/food_details_screen.dart';
@@ -39,7 +40,10 @@ class FoodTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(food.title),
+                      Text(
+                        food.title,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       Text("${food.price.toStringAsFixed(2)} VND"),
                     ],
                   ),
