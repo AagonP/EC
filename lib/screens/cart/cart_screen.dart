@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/constants.dart';
 import 'package:shop_app/helper/auth.dart';
 import 'package:shop_app/models/Cart.dart';
 
@@ -45,6 +46,9 @@ class CartScreen extends StatelessWidget {
   }
 
   AppBar buildAppBar(BuildContext context) {
+    final uid = Provider.of<AuthenticationService>(context, listen: false)
+        .getUser()!
+        .uid;
     return AppBar(
       centerTitle: true,
       title: Column(
@@ -54,6 +58,34 @@ class CartScreen extends StatelessWidget {
             style: TextStyle(
               color: Colors.black,
             ),
+          ),
+          StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+            stream: FirebaseFirestore.instance
+                .collection('orders')
+                .doc(uid)
+                .collection('foods')
+                .doc('no_item')
+                .snapshots(),
+            builder: (BuildContext context,
+                AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>>
+                    snapshot) {
+              if (snapshot.hasError) {
+                return Text('Something went wrong');
+              }
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Text("Loading");
+              }
+
+              Map<String, dynamic> data =
+                  snapshot.data!.data() as Map<String, dynamic>;
+              return Text(
+                data['no_item'].toString() + " items",
+                style: TextStyle(
+                  color: kSecondaryColor,
+                ),
+              );
+            },
           ),
         ],
       ),
