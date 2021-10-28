@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<AuthenticationService>(
+        ChangeNotifierProvider<AuthenticationService>(
           create: (_) => AuthenticationService(),
         ),
         // 3
@@ -27,9 +27,11 @@ class MyApp extends StatelessWidget {
               context.read<AuthenticationService>().authStateChanges,
           initialData: null,
         ),
-        ChangeNotifierProvider<StoreCollection>(
+        ChangeNotifierProxyProvider<AuthenticationService, StoreCollection>(
           create: (_) => StoreCollection(),
-          lazy: false,
+          update: (_, authenticationService, storeCollection) =>
+              storeCollection!..fetchFavorites(authenticationService),
+          lazy: true,
         ),
       ],
       child: MaterialApp(

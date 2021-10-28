@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class AuthenticationService {
+class AuthenticationService with ChangeNotifier {
   // Static variables for authentication
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final CollectionReference _usersReference =
@@ -19,6 +20,7 @@ class AuthenticationService {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
+      notifyListeners();
       return "Signed in";
     } on FirebaseAuthException catch (e) {
       return e.message;
@@ -38,7 +40,7 @@ class AuthenticationService {
   }
 
   // Complete profile
-  Future<String?> completeProfile({
+  Future<String?> postNewProfile({
     required String firstName,
     required String lastName,
     required String phoneNumber,

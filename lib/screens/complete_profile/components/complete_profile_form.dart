@@ -68,7 +68,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                       // If all are valid then go to HomePage screen
                       final result = await context
                           .read<AuthenticationService>()
-                          .completeProfile(
+                          .postNewProfile(
                             firstName: firstName!.trim(),
                             lastName: lastName!.trim(),
                             phoneNumber: phoneNumber!.trim(),

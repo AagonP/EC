@@ -10,9 +10,7 @@ import 'package:provider/provider.dart';
 class PopularProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-    List<Store> popularStore = context.read<StoreCollection>().getPopularStores;
-    print(popularStore.length);
+    List<Store> popularStore = context.watch<StoreCollection>().getPopularStores;
 
     return Column(
       children: [
@@ -20,7 +18,6 @@ class PopularProducts extends StatelessWidget {
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
           child: SectionTitle(title: "Popular Stores", press: () {
-            print("Store printed");
           }),
         ),
         SizedBox(height: getProportionateScreenWidth(20)),

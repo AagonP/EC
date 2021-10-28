@@ -76,7 +76,6 @@ class _BodyState extends State<Body> {
                       press: () {
                         User? user =
                             context.read<AuthenticationService>().getUser();
-                        print(user);
                         if (user == null) {
                           Navigator.pushNamed(context, SignInScreen.routeName);
                         } else {
