@@ -70,7 +70,8 @@ class Body extends StatelessWidget {
                                   (food.id).toString(),
                                   food.price,
                                   uid,
-                                  store_id);
+                                  store_id,
+                                  food.title);
                             } else {
                               await showNewCartConfirm(
                                   context, quantityConfig, food, uid, store_id);
@@ -142,7 +143,7 @@ Future<bool> isOrderCreated(String uid) async {
 }
 
 Future<void> addItemToCart(int quantity, String foodId, double foodPrice,
-    String uid, String store_id) async {
+    String uid, String store_id, String foodName) async {
   // Food selected will be post to orders collection in Firestore
   // Add store id
   await FirebaseFirestore.instance.collection('orders').doc(uid).get().then(
@@ -187,6 +188,7 @@ Future<void> addItemToCart(int quantity, String foodId, double foodPrice,
         orders.doc(foodId).set(
           {
             'quantity': quantity.toString(),
+            'name': foodName,
           },
         ).catchError((error) => print("Failed to add item to cart: $error"));
       }
@@ -246,7 +248,7 @@ Future<void> showNewCartConfirm(
               await deleteOrder(uid);
               // Add new one
               await addItemToCart(quantityConfig.quantity, (food.id).toString(),
-                  food.price, uid, store_id);
+                  food.price, uid, store_id, food.title);
               Navigator.of(context).pop();
             },
           ),

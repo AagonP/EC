@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:flutter_braintree/flutter_braintree.dart';
 import 'package:shop_app/helper/auth.dart';
+import 'package:intl/intl.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -13,8 +14,11 @@ final mock_address =
     "268 Lý Thường Kiệt, Phường 14, Quận 10, Thành phố Hồ Chí Minh";
 
 class CheckoutCard extends StatefulWidget {
-  const CheckoutCard({Key? key, required this.subtotal, required this.store_id})
-      : super(key: key);
+  const CheckoutCard({
+    Key? key,
+    required this.subtotal,
+    required this.store_id,
+  }) : super(key: key);
   final subtotal;
   final store_id;
 
@@ -194,14 +198,13 @@ class _CheckoutCardState extends State<CheckoutCard> {
                           .uid;
                   // Check if there is item in the cart
                   if (double.parse(widget.subtotal) != 0) {
+                    String description = await getDescription(uid);
+                    bool isCash = true;
                     if (dropdownValue == 'Online Payment') {
-                      // If paypal is chosen
-                      if (await processPayment(total, uid, widget.store_id)) {
-                        await deleteOrder(uid);
-                        Navigator.of(context).pop();
-                      }
-                    } else {
-                      // If cash is chosen
+                      isCash = false;
+                    }
+                    if (await processPayment(
+                        total, uid, widget.store_id, description, isCash)) {
                       await deleteOrder(uid);
                       Navigator.of(context).pop();
                     }
@@ -214,6 +217,24 @@ class _CheckoutCardState extends State<CheckoutCard> {
       ),
     );
   }
+}
+
+Future<String> getDescription(String uid) async {
+  String description = "";
+  await FirebaseFirestore.instance
+      .collection('orders')
+      .doc(uid)
+      .collection('foods')
+      .get()
+      .then((QuerySnapshot<Map<String, dynamic>> querySnapshot) {
+    querySnapshot.docs.forEach((doc) {
+      if (doc.id != 'no_item') {
+        description +=
+            doc.data()['name'] + " : " + doc.data()['quantity'] + ", ";
+      }
+    });
+  });
+  return description;
 }
 
 Future<void> deleteOrder(String uid) async {
@@ -244,36 +265,62 @@ Future<void> deleteOrder(String uid) async {
   }).catchError((error) => print("Failed to update total: $error"));
 }
 
-Future<bool> processPayment(String total, String uid, String store_id) async {
-  // Return true if the transaction is completed
-  var request = BraintreeDropInRequest(
-    tokenizationKey: tokenizationKey,
-    collectDeviceData: true,
-    paypalRequest: BraintreePayPalRequest(
-      amount: total,
-      displayName: 'Eatify',
-    ),
-    cardEnabled: false,
-  );
-  final result = await BraintreeDropIn.start(request);
-  // On sucessful nonce getting from the braintree
-  if (result != null) {
-    // Post receipt to Firebase
-    await sendNonceToFirebase(total, result, uid, store_id);
+Future<bool> processPayment(String total, String uid, String store_id,
+    String description, bool isCash) async {
+  if (isCash) {
+    await sendNonceToFirebase(
+        total, "", "", uid, store_id, description, "Cash", true);
     return true;
   } else {
-    return false;
+// Return true if the transaction is completed
+    var request = BraintreeDropInRequest(
+      tokenizationKey: tokenizationKey,
+      collectDeviceData: true,
+      paypalRequest: BraintreePayPalRequest(
+        amount: total,
+        displayName: 'Eatify',
+      ),
+      cardEnabled: false,
+    );
+    final result = await BraintreeDropIn.start(request);
+    // On sucessful nonce getting from the braintree
+    if (result != null) {
+      // Post receipt to Firebase
+      await sendNonceToFirebase(
+          total,
+          result.deviceData,
+          result.paymentMethodNonce.nonce,
+          uid,
+          store_id,
+          description,
+          "PayPal",
+          false);
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 
-Future<void> sendNonceToFirebase(String total, BraintreeDropInResult result,
-    String uid, String store_id) async {
+Future<void> sendNonceToFirebase(
+    String total,
+    String? deviceData,
+    String nonce,
+    String uid,
+    String store_id,
+    String description,
+    String payment_type,
+    bool is_processed) async {
+  String date = DateFormat('dd-MM-yyyy').format(DateTime.now());
   await FirebaseFirestore.instance.collection('receipts').add({
     'amount': total,
-    'device_data': result.deviceData,
-    'nonce': result.paymentMethodNonce.nonce,
-    'is_processed': false,
+    'description': description,
+    'device_data': deviceData,
+    'nonce': nonce,
+    'is_processed': is_processed,
     'store_id': store_id,
     'uid': uid,
+    'payment_type': payment_type,
+    'created_time': date,
   });
 }
