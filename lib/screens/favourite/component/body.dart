@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shop_app/models/Food.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/helper/store_collection.dart';
 import 'package:shop_app/models/Store.dart';
-import 'package:shop_app/screens/favourite/component/custom_food_card.dart';
+import 'package:shop_app/screens/home/components/store_card.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -14,6 +15,9 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
+    StoreCollection storeCollection = Provider.of<StoreCollection>(context);
+    List<Store> favoriteStores = storeCollection.getFavoriteStores;
+
     return SafeArea(
       child: GridView.count(
         childAspectRatio: 0.75,
@@ -24,14 +28,14 @@ class _BodyState extends State<Body> {
         // Generate 100 widgets that display their index in the List.
         children: [
           ...List.generate(
-            demoStores.length,
+            favoriteStores.length,
             (index) {
               return Dismissible(
-                key: Key(demoStores[index].id.toString()),
+                key: Key(favoriteStores[index].id.toString()),
                 direction: DismissDirection.endToStart,
                 onDismissed: (direction) {
                   setState(() {
-                    demoStores.removeAt(index);
+                    storeCollection.toggleFavorite(favoriteStores[index]);
                   });
                 },
                 background: Container(
@@ -47,8 +51,9 @@ class _BodyState extends State<Body> {
                     ],
                   ),
                 ),
-                child: CustomFoodCard(
-                  store: demoStores[index],
+                child: StoreCard(
+                  width: 160,
+                  store: favoriteStores[index],
                 ),
               );
             },

@@ -5,7 +5,7 @@ class Store {
   final double rating, distance;
 
   final bool isPopular;
-  final bool isFavourite;
+  bool isFavourite;
 
 
   Store({

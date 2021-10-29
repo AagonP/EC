@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:shop_app/constants.dart';
+import 'package:shop_app/helper/store_collection.dart';
 import 'package:shop_app/models/Store.dart';
 import 'package:shop_app/models/Food.dart';
 import 'package:shop_app/helper/food_collection.dart';
@@ -21,6 +23,8 @@ class StoreCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    StoreCollection storeCollection = Provider.of<StoreCollection>(context);
+
     return Padding(
       padding: EdgeInsets.only(left: getProportionateScreenWidth(20)),
       child: SizedBox(
@@ -74,26 +78,37 @@ class StoreCard extends StatelessWidget {
                       color: kPrimaryColor,
                     ),
                   ),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(50),
-                    onTap: () {},
-                    child: Container(
-                      padding: EdgeInsets.all(getProportionateScreenWidth(8)),
-                      height: getProportionateScreenWidth(28),
-                      width: getProportionateScreenWidth(28),
-                      decoration: BoxDecoration(
-                        color: store.isFavourite
-                            ? kPrimaryColor.withOpacity(0.15)
-                            : kSecondaryColor.withOpacity(0.1),
-                        shape: BoxShape.circle,
-                      ),
-                      child: SvgPicture.asset(
-                        "assets/icons/Heart Icon_2.svg",
-                        color: store.isFavourite
-                            ? Color(0xFFFF4848)
-                            : Color(0xFFDBDEE4),
-                      ),
-                    ),
+                  Consumer<StoreCollection>(
+                    builder: (context, storeCollection, child) {
+                      bool isFavorite = storeCollection.getFavoriteStores
+                              .indexWhere(
+                                  (element) => element.id == store.id) !=
+                          -1;
+                      return InkWell(
+                        borderRadius: BorderRadius.circular(50),
+                        onTap: () {
+                          storeCollection.toggleFavorite(store);
+                        },
+                        child: Container(
+                          padding:
+                              EdgeInsets.all(getProportionateScreenWidth(8)),
+                          height: getProportionateScreenWidth(28),
+                          width: getProportionateScreenWidth(28),
+                          decoration: BoxDecoration(
+                            color: isFavorite
+                                ? kPrimaryColor.withOpacity(0.15)
+                                : kSecondaryColor.withOpacity(0.1),
+                            shape: BoxShape.circle,
+                          ),
+                          child: SvgPicture.asset(
+                            "assets/icons/Heart Icon_2.svg",
+                            color: isFavorite
+                                ? Color(0xFFFF4848)
+                                : Color(0xFFDBDEE4),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ],
               )
