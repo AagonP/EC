@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 class PopularProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     List<Store> popularStore = context.read<StoreCollection>().getPopularStores;
     print(popularStore.length);
 
@@ -19,9 +18,16 @@ class PopularProducts extends StatelessWidget {
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-          child: SectionTitle(title: "Popular Stores", press: () {
-            print("Store printed");
-          }),
+          child: Container(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Popular Store",
+              style: TextStyle(
+                fontSize: getProportionateScreenWidth(18),
+                color: Colors.black,
+              ),
+            ),
+          ),
         ),
         SizedBox(height: getProportionateScreenWidth(20)),
         SingleChildScrollView(
