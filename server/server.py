@@ -27,6 +27,7 @@ firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 def process_transaction(amount,nonce,device_data):
+    print("Sending to paypal")
     # Send transaction to Braintree
     gateway.transaction.sale({
     "amount": amount,

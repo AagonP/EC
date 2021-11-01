@@ -286,6 +286,7 @@ Future<bool> processPayment(String total, String uid, String store_id,
     // On sucessful nonce getting from the braintree
     if (result != null) {
       // Post receipt to Firebase
+      print("Send nonce");
       await sendNonceToFirebase(
           total,
           result.deviceData,
